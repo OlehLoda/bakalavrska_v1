@@ -1,0 +1,10 @@
+.bottom {
+  background: #262626;
+}
+
+.bottom > div {
+  max-width: 1380px;
+  margin: 0 auto;
+
+  background: #262626;
+}

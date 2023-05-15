@@ -1,0 +1,81 @@
+.bg {
+  display: grid;
+  place-content: center;
+  padding: 150px 20px;
+}
+
+.form {
+  width: 680px;
+  height: fit-content;
+
+  background: #ffffff;
+  border: 3px solid #ff8282;
+
+  display: grid;
+  gap: 36px;
+
+  padding: 40px 50px;
+}
+
+.form > h2 {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 21px;
+  line-height: 25px;
+  text-align: center;
+
+  color: #000000;
+}
+
+.form > div {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+
+.input {
+  height: 50px;
+  width: 100%;
+
+  background: #ededed;
+
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 20px;
+
+  padding: 22px 26px;
+
+  display: grid;
+  place-content: center;
+}
+
+.input::placeholder {
+  color: #363636;
+}
+
+.submit {
+  cursor: pointer;
+
+  border-radius: 2px;
+
+  width: 100%;
+  height: 50px;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+
+  color: #ffffff;
+  background: #ff8282;
+}
+
+.form > .links {
+  grid-template-columns: repeat(2, auto);
+  justify-content: space-between;
+}

@@ -1,0 +1,154 @@
+.header {
+  background: #444444;
+
+  height: 80px;
+  padding: 0 30px;
+
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header > div {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: space-between;
+  align-items: center;
+
+  height: 100%;
+}
+
+.header > div > nav {
+  display: grid;
+  grid-auto-flow: column;
+  gap: 50px;
+}
+
+.header > div > nav:last-of-type {
+  justify-content: end;
+}
+
+.mobileLogo,
+.header > div > nav > * {
+  cursor: pointer;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+
+  color: #ffffff;
+
+  display: grid;
+  align-items: center;
+  grid-auto-flow: column;
+  justify-content: center;
+  gap: 12px;
+}
+
+.active {
+  text-decoration: underline;
+}
+
+.burger ,
+.mobileLogo {
+  display: none;
+}
+
+
+@media screen and (max-width: 1024px) {
+  .mobileLogo {
+    display: block;
+  }
+
+  .header {
+    position: relative;
+    height: fit-content;
+    min-height: 80px;
+
+    display: grid;
+    gap: 25px;
+
+    padding: 25px 15px 0px;
+  }
+
+  .burger {
+    cursor: pointer;
+
+    position: absolute;
+    top: 25px;
+    right: 15px;
+
+    width: 30px;
+    aspect-ratio: 1 / 1;
+
+    display: grid;
+    align-items: center;
+  }
+
+  .burger::before,
+  .burger::after {
+    content: "";
+    width: 30px;
+    height: 3px;
+
+    border-radius: 2px;
+
+    background: #ffffff;
+    display: block;
+  }
+
+  .burger:has(input:checked) {
+    transform: rotate(45deg);
+  }
+
+  .burger:has(input:checked)::before,
+  .burger:has(input:checked)::after {
+    grid-row: 1 / -1;
+    grid-column: 1 / -1;
+  }
+  .burger:has(input:checked)::before {
+    transform: rotate(90deg);
+  }
+
+  .burger > input {
+    display: none;
+  }
+
+  .header > div {
+    grid-auto-flow: row;
+    justify-content: start;
+    justify-items: start;
+    align-items: start;
+
+    height: 0px;
+    overflow: hidden;
+
+    padding: 0px;
+  }
+
+  .header:has(input:checked) > div {
+    height: fit-content;
+    padding-bottom: 25px;
+  }
+
+  .header > div > nav {
+    grid-auto-flow: row;
+    gap: 20px;
+  }
+
+  .header > div > nav:first-child > *:first-child {
+    display: none;
+  }
+
+  .mobileLogo,
+  .header > div > nav > * {
+    justify-content: start;
+    white-space: nowrap;
+  }
+
+  .header > div > nav:last-of-type {
+    justify-content: end;
+  }
+}
