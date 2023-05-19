@@ -20,15 +20,6 @@ export default function GlobalContextProvider({
     return dispatch({ type: Action.SET_ALERT, payload });
   };
 
-  useEffect(() => {
-    setAlert({
-      type: "warning",
-      text: "Lorem ipsum, dolor sit amet consectetur",
-    });
-  }, []);
-
-  console.log(state.alert);
-
   const setData = (payload: IInitialState) => {
     return dispatch({ type: Action.SET_DATA, payload });
   };

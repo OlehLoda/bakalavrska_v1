@@ -2,14 +2,17 @@
 import Link from "next/link";
 import s from "./header.module.css";
 import { signOut } from "next-auth/react";
-import { ReactNode, Fragment } from "react";
+import { ReactNode, Fragment, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { ModalType } from "@/components/context/types";
 import { useGlobalContext } from "@/components/context/context";
+import Logo from "./logo";
+import ProfileIcon from "@/public/icons/profile";
+import CreateNewIcon from "@/public/icons/create-new";
+import AllEventsIcon from "@/public/icons/all-events";
 
 interface INavTab {
   children: ReactNode;
-  href?: string;
+  href: string;
 }
 
 export default function Header() {
@@ -17,20 +20,9 @@ export default function Header() {
   const is_active = (link: string) => (pathname === link ? s.active : "");
 
   const {
-    state: { modal, current_user_email },
-    setModal,
+    state: { current_user_email },
     setCurrentUserEmail,
   } = useGlobalContext();
-
-  const toggleUserCard = () =>
-    modal?.type !== ModalType.USER_CARD
-      ? setModal({ type: ModalType.USER_CARD })
-      : setModal(null);
-
-  const toggleCallBack = () =>
-    modal?.type !== ModalType.CALL_BACK
-      ? setModal({ type: ModalType.CALL_BACK })
-      : setModal(null);
 
   const logOut = () => {
     signOut();
@@ -39,42 +31,47 @@ export default function Header() {
 
   const navMap: INavTab[] = [
     {
-      children: <>Easy Events</>,
-      href: "/",
+      children: (
+        <>
+          <AllEventsIcon />
+          <p>All events</p>
+        </>
+      ),
+      href: "/all-events",
     },
     {
-      children: <>Заявки</>,
-      href: "/requests",
+      children: (
+        <>
+          <CreateNewIcon />
+          <p>Create event</p>
+        </>
+      ),
+      href: "/create-event",
     },
     {
-      children: <>Отримати верифікацію</>,
-      href: "/",
-    },
-    {
-      children: <>Зворотній зв’язок</>,
-    },
-    {
-      children: current_user_email ? <>Вихід</> : <>Вхід</>,
-      href: current_user_email ? undefined : "/login",
+      children: (
+        <>
+          <ProfileIcon />
+          <p>Profile</p>
+        </>
+      ),
+      href: "/profile",
     },
   ];
 
+  const headerRef = useRef<HTMLElement>(null);
+
+  const toggleHeader = () => headerRef.current?.classList.toggle(s.small);
+
   return (
-    <header className={s.header}>
-      <div>
-        {navMap.map(({ children, href }, index) =>
-          href ? (
-            <Link href={href} className={is_active(href)} key={index}>
-              {children}
-            </Link>
-          ) : (
-            <Fragment key={index}>{children}</Fragment>
-          )
-        )}
-      </div>
-      <label className={s.burger}>
-        <input type="checkbox" />
-      </label>
+    <header className={s.header} ref={headerRef}>
+      <Logo />
+      {navMap.map(({ children, href }, index) => (
+        <Link href={href} key={index}>
+          <div className={`${s.link} ${is_active(href)}`}>{children}</div>
+        </Link>
+      ))}
+      <button className={s.toggleHeader} onClick={toggleHeader} />
     </header>
   );
 }

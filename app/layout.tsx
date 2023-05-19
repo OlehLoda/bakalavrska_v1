@@ -22,8 +22,7 @@ export default function RootLayout({
           <GlobalContextProvider>
             <Alert />
             <Header />
-            {children}
-            {/* <Footer /> */}
+            <main className="wrapApp">{children}</main>
           </GlobalContextProvider>
         </NextAuthProvider>
       </body>

@@ -62,8 +62,6 @@ export default function Alert() {
     };
   }, [alert]);
 
-  console.log(alert);
-
   if (!alert) return <></>;
 
   return (
