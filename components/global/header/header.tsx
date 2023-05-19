@@ -63,6 +63,8 @@ export default function Header() {
 
   const toggleHeader = () => headerRef.current?.classList.toggle(s.small);
 
+  if (pathname === "/login") return <i />;
+
   return (
     <header className={s.header} ref={headerRef}>
       <Logo />

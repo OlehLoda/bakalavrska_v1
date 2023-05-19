@@ -12,7 +12,6 @@ interface IChangePasswordStep {
 }
 
 export default function LogIn() {
-  const { data: session } = useSession();
   const { findUser, changeUserData, setCurrentUserEmail } = useGlobalContext();
 
   const [resetPass, setResetPass] = useState<IChangePasswordStep | null>(null);
@@ -58,12 +57,12 @@ export default function LogIn() {
         password: data["password"] as string,
         password_repeat: data["password_repeat"] as string,
       });
-      alert("Пароль змінено");
+      alert("Password has been changed");
       return setResetPass(null);
     } else if (resetPasswordStep === 2 && !is_password_correct) {
-      return alert("Паролі відрізняються");
+      return alert("Passwords don't match");
     } else {
-      return alert("Користувач не знайдений. Перевірте введені дані");
+      return alert("User not found. Check if the email is correct");
     }
   };
 
@@ -78,26 +77,32 @@ export default function LogIn() {
         <form className={s.form} onSubmit={onSubmit}>
           <h2>Вхід</h2>
           <div>
-            <button type="submit" className={s.submit}>
-              Увійти
+            <input
+              autoFocus
+              required
+              placeholder="Email"
+              name="email"
+              type="email"
+              className={s.input}
+            />
+            <input
+              minLength={8}
+              required
+              placeholder="Password"
+              name="password"
+              type="password"
+              className={s.input}
+            />
+          </div>
+          <div>
+            <button type="submit">Увійти</button>
+            <button type="button" onClick={() => signIn()} className={s.google}>
+              Sign in with Google <GoogleIcon />
             </button>
-            {session ? (
-              <button
-                type="button"
-                onClick={() => signOut()}
-                className={s.google}
-              >
-                Sign out with Google <GoogleIcon />
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={() => signIn()}
-                className={s.google}
-              >
-                Sign in with Google <GoogleIcon />
-              </button>
-            )}
+          </div>
+          <div className={s.registerForgot}>
+            <Link href="/register">Don't have an account?</Link>
+            <p onClick={handleResetPass}>Forget password?</p>
           </div>
         </form>
       )}
@@ -112,7 +117,7 @@ export default function LogIn() {
             <ArrowIcon />
           </button>
 
-          <h2>Відновлення паролю</h2>
+          <h2>Reset password</h2>
           <input
             autoFocus
             required
@@ -122,7 +127,7 @@ export default function LogIn() {
             className={s.input}
           />
           <button type="submit" className={s.submit}>
-            Продовжити
+            Continue
           </button>
         </form>
       )}
@@ -136,13 +141,13 @@ export default function LogIn() {
           <button type="reset" className={s.back}>
             <ArrowIcon />
           </button>
-          <h2>Відновлення паролю</h2>
+          <h2>Reset password</h2>
           <input
             autoFocus
             minLength={8}
             required
             name="password"
-            type="text"
+            type="password"
             className={s.input}
             placeholder="Введіть новий пароль"
           />
@@ -150,12 +155,12 @@ export default function LogIn() {
             minLength={8}
             required
             name="password_repeat"
-            type="text"
+            type="password"
             className={s.input}
             placeholder="Повторіть пароль"
           />
           <button type="submit" className={s.submit}>
-            Змінити пароль
+            Change password
           </button>
         </form>
       )}

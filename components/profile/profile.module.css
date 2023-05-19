@@ -1,0 +1,24 @@
+.bg {
+  background: var(--blue);
+  height: fit-content;
+
+  align-self: center;
+  padding: 30px;
+
+  border-radius: 10px;
+  position: relative;
+}
+
+.bg h2 {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.content {
+  display: grid;
+  gap: 24px;
+
+  height: 100%;
+  align-content: start;
+}

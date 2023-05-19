@@ -1,7 +1,6 @@
 import "./globals.css";
 import NextAuthProvider from "./NextAuthWrapper";
 import Header from "@/components/global/header/header";
-import Footer from "@/components/global/footer/footer";
 import GlobalContextProvider from "@/components/context/provider";
 import Alert from "@/components/global/alert/alert";
 

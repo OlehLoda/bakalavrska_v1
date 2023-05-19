@@ -16,6 +16,7 @@ body {
 
 .wrapApp {
   padding: 30px;
+  display: grid;
 }
 
 * {
@@ -45,10 +46,12 @@ body {
   --silver: rgb(198, 197, 185);
   --blue: rgb(98, 146, 158);
   --red: rgb(195, 66, 63);
+  --green: rgb(121, 206, 61);
 }
 
 button {
   transition: 0.3s;
+  cursor: pointer;
 }
 
 button:hover {
