@@ -7,7 +7,6 @@ import { useGlobalContext } from "@/components/context/context";
 import { ModalType } from "@/components/context/types";
 
 export default function UserCard() {
-  // витягаємо потрібні дані і функції з глобального конексту
   const {
     state: { current_user_email, modal },
     setModal,
@@ -16,28 +15,23 @@ export default function UserCard() {
   } = useGlobalContext();
   if (!current_user_email) return <></>;
 
-  // знаходимо всі потрібні дані і записуємо їх в змінні
   const balance = findUserData("balance"),
     image = findUserData("image"),
     name = findUserData("name"),
     email = findUserData("email");
 
-  // функція виводу коштів
   const withdraw = () => {
     const newBalance = balance !== 0 ? balance - 50 : 0;
     return changeUserData({ balance: newBalance });
   };
 
-  // функція поповнення коштів
   const deposit = () => {
     const newBalance = balance + 50;
     return changeUserData({ balance: newBalance });
   };
 
-  // функція закривання вікна профілю
   const close = () => setModal(null);
 
-  // повертаємо вікно профілю, якшо тип modal правильний
   return modal?.type === ModalType.USER_CARD ? (
     <div className={s.bg + " " + s.weight} onClick={close}>
       <div className={s.userCard} onClick={(e) => e.stopPropagation()}>

@@ -9,7 +9,9 @@ html {
 body {
   display: grid;
   grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
   min-height: 100dvh;
+  background: var(--onyx);
 }
 
 * {
@@ -19,7 +21,7 @@ body {
   font-size: 22px;
   line-height: 40px;
 
-  color: #000000;
+  color: var(--black);
 
   padding: 0;
   margin: 0;
@@ -30,4 +32,21 @@ body {
   box-sizing: border-box;
 
   text-decoration: none;
+}
+
+:root {
+  --onyx: rgb(57, 61, 63);
+  --white: #fcfcfc;
+  --black: #121212;
+  --silver: rgb(198, 197, 185);
+  --blue: rgb(98, 146, 158);
+  --red: rgb(195, 66, 63);
+}
+
+button {
+  transition: 0.3s;
+}
+
+button:hover {
+  opacity: 0.75;
 }

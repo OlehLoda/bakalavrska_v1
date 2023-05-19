@@ -1,20 +1,58 @@
-import { IUser, Actions, IInitialState, Action } from "./types";
+import {
+  IUser,
+  IAlert,
+  IModal,
+  IInitialState,
+  IChangePasswordDTO,
+} from "./types";
 
-//функція редюсер, яка менеджить весь наш контекст
+export type ActionMap<M extends { [index: string]: any }> = {
+  [Key in keyof M]: M[Key] extends undefined
+    ? {
+        type: Key;
+      }
+    : {
+        type: Key;
+        payload: M[Key];
+      };
+};
+
+export enum Action {
+  SET_DATA = "SET_DATA",
+  SET_ALERT = "SET_ALERT",
+  SET_MODAL = "SET_MODAL",
+  REGISTER_USER = "REGISTER_USER",
+  CHANGE_PASSWORD = "CHANGE_PASSWORD",
+  CHANGE_USER_DATA = "CHANGE_USER_DATA",
+  SET_CURRENT_USER_EMAIL = "SET_CURRENT_USER_EMAIL",
+}
+
+export interface Payload {
+  [Action.SET_DATA]: IInitialState;
+  [Action.SET_ALERT]: IAlert | null;
+  [Action.SET_MODAL]: IModal | null;
+  [Action.REGISTER_USER]: IUser;
+  [Action.CHANGE_PASSWORD]: IChangePasswordDTO;
+  [Action.CHANGE_USER_DATA]: Partial<IUser>;
+  [Action.SET_CURRENT_USER_EMAIL]: string | null;
+}
+
+export type Actions = ActionMap<Payload>[keyof ActionMap<Payload>];
+
 export const GlobalReducer = (
   state: IInitialState,
   action: Actions
 ): IInitialState => {
   switch (action.type) {
-    //функція SET_MODAL, яка менеджить модальні вікна
     case Action.SET_MODAL:
       return { ...state, modal: action.payload };
 
-    //функція SET_DATA, яка записує всі дані з бази даних
+    case Action.SET_ALERT:
+      return { ...state, alert: action.payload };
+
     case Action.SET_DATA:
       return { ...action.payload };
 
-    //функція REGISTER_USER, яка додає юзера в масив зареєстрованих
     case Action.REGISTER_USER:
       return {
         ...state,
@@ -23,11 +61,9 @@ export const GlobalReducer = (
           : [action.payload],
       };
 
-    //функція SET_CURRENT_USER_EMAIL, яка записує емаіл залогіненого юзера
     case Action.SET_CURRENT_USER_EMAIL:
       return { ...state, current_user_email: action.payload };
 
-    //функція CHANGE_USER_DATA, яка змінює будь-яке поле юзера в масиві зареєстровних юзерів
     case Action.CHANGE_USER_DATA:
       const registered_users = (
         structuredClone(state.registered_users) as IUser[]

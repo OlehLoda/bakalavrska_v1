@@ -1,11 +1,12 @@
 "use client";
 import { SessionProvider } from "next-auth/react";
 
-// створюємо NextAuthProvider для роботи next-auth у всьому додатку
 export default function NextAuthProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <SessionProvider>{children}</SessionProvider>;
+  const nextAuthUrl = process.env.NEXTAUTH_URL;
+
+  return <SessionProvider baseUrl={nextAuthUrl}>{children}</SessionProvider>;
 }

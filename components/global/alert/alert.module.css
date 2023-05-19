@@ -1,0 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700;800&display=swap");
+
+.alert {
+  width: fit-content;
+  max-width: 90vw;
+  min-width: 300px;
+
+  position: fixed;
+  left: 50%;
+  top: 50px;
+  transform: translateX(-50%);
+
+  display: grid;
+  align-items: center;
+  grid-template-columns: auto 1fr auto;
+  gap: 8px;
+
+  padding: 11px;
+
+  border: 1px solid #efefef;
+  border-radius: 30px;
+  z-index: 100;
+}
