@@ -15,6 +15,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <script
+          src={`https://maps.googleapis.com/maps/api/js?key=${"AIzaSyCGq7bOvkrJN5G7T78FlOgFEd3Z7zNHZWE"}&libraries=places`}
+        />
+      </head>
       <body>
         <NextAuthProvider>
           <GlobalContextProvider>

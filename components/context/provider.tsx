@@ -1,10 +1,10 @@
 "use client";
 
 import { Action, GlobalReducer } from "./reducer";
-import { ChangeUserData, IAlert, IInitialState, IModal, IUser } from "./types";
 import { GlobalContext, InitialState } from "./context";
 import { ReactNode, useReducer, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { ChangeUserData, IInitialState, IModal, IUser } from "./types";
 
 export default function GlobalContextProvider({
   children,
@@ -22,10 +22,6 @@ export default function GlobalContextProvider({
 
   const setModal = (payload: IModal | null) => {
     return dispatch({ type: Action.SET_MODAL, payload });
-  };
-
-  const setAlert = (payload: IAlert | null) => {
-    return dispatch({ type: Action.SET_ALERT, payload });
   };
 
   const setData = (payload: IInitialState) => {
@@ -80,7 +76,6 @@ export default function GlobalContextProvider({
       value={{
         state,
         dispatch,
-        setAlert,
         findUser,
         setModal,
         deleteUser,
