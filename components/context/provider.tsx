@@ -1,10 +1,10 @@
 "use client";
 
 import { Action, GlobalReducer } from "./reducer";
-import { IAlert, IInitialState, IModal, IUser } from "./types";
+import { ChangeUserData, IAlert, IInitialState, IModal, IUser } from "./types";
 import { GlobalContext, InitialState } from "./context";
 import { ReactNode, useReducer, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function GlobalContextProvider({
   children,
@@ -13,8 +13,12 @@ export default function GlobalContextProvider({
 }) {
   const [state, dispatch] = useReducer(GlobalReducer, InitialState);
   const router = useRouter();
+  const pathname = usePathname();
 
-  if (!state.current_user_email) router.push("/login");
+  useEffect(() => {
+    if (!state.current_user_email && pathname !== "/register")
+      router.push("/login");
+  }, []);
 
   const setModal = (payload: IModal | null) => {
     return dispatch({ type: Action.SET_MODAL, payload });
@@ -36,7 +40,7 @@ export default function GlobalContextProvider({
     return dispatch({ type: Action.SET_CURRENT_USER_EMAIL, payload });
   };
 
-  const changeUserData = (payload: Partial<IUser>) => {
+  const changeUserData = (payload: ChangeUserData) => {
     return dispatch({ type: Action.CHANGE_USER_DATA, payload });
   };
 

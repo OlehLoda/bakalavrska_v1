@@ -5,7 +5,6 @@ import { createContext, useContext } from "react";
 
 export const InitialState: IInitialState = {
   modal: null,
-  alert: null,
   registered_users: [],
   current_user_email: null,
 };
@@ -14,7 +13,6 @@ export const context: IContext = {
   state: InitialState,
   dispatch: () => null,
   setModal: () => null,
-  setAlert: () => null,
   findUser: () => undefined,
   deleteUser: () => null,
   registerUser: () => null,

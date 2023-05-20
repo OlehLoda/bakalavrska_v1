@@ -14,7 +14,7 @@ export default function Register() {
 
     const elements = Array.from(e.currentTarget.elements);
 
-    const data = {} as IUser;
+    const data: Record<string, string> = {};
 
     elements
       .filter((e) => (e as HTMLInputElement).name.length > 0)
@@ -27,19 +27,17 @@ export default function Register() {
 
     const password_match = data["password"] === data["password_repeat"];
 
-    const final_data = {
-      ...data,
+    const final_data: IUser = {
       image: "",
-      balance: 0,
-      requests: null,
-      callbacks: null,
-      verifications: null,
+      name: data["name"],
+      email: data["email"],
+      password: data["password"],
     };
 
     if (user_exist) {
-      return alert("Цей користувач вже зареєстрований");
+      return alert("This user already has an account");
     } else if (!password_match) {
-      return alert("Паролі не сходяться");
+      return alert("Passwords don't match");
     } else {
       registerUser(final_data);
       return router.push("/login");
@@ -49,7 +47,7 @@ export default function Register() {
   return (
     <div className={s.bg}>
       <form className={s.form} onSubmit={onSubmit}>
-        <h2>Реєстрація</h2>
+        <h2>Registration</h2>
         <div>
           <input
             autoFocus
@@ -57,14 +55,14 @@ export default function Register() {
             placeholder="Email"
             name="email"
             type="email"
-            className={s.input}
+            className="input"
           />
           <input
             required
-            placeholder="Ім'я"
+            placeholder="Name"
             name="name"
             type="text"
-            className={s.input}
+            className="input"
           />
         </div>
         <div>
@@ -73,20 +71,20 @@ export default function Register() {
             minLength={8}
             type="password"
             name="password"
-            className={s.input}
-            placeholder="Пароль"
+            className="input"
+            placeholder="Password"
           />
           <input
             required
             minLength={8}
             type="password"
-            className={s.input}
+            className="input"
             name="password_repeat"
-            placeholder="Повторіть пароль"
+            placeholder="Repeat password"
           />
         </div>
-        <button type="submit" className={s.submit}>
-          Далі
+        <button type="submit" className="submit">
+          Submit
         </button>
       </form>
     </div>

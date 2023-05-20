@@ -20,11 +20,7 @@ export default function LogIn() {
     resetPass ? setResetPass(null) : setResetPass({ step: 1 });
   };
 
-  const onSubmit = (
-    e: FormEvent<HTMLFormElement>,
-    resetPasswordStep: number | null = null,
-    email?: string
-  ) => {
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const elements = Array.from(e.currentTarget.elements);
@@ -38,28 +34,28 @@ export default function LogIn() {
         data[name] = value;
       });
 
-    const user_exist = findUser((data["email"] || email) as string);
+    const user_exist = findUser((data["email"] || resetPass?.email) as string);
 
     const is_password_correct =
       (data["password"] as string) === (data["password_repeat"] as string);
 
-    if (!resetPasswordStep && user_exist) {
+    if (!resetPass?.step && user_exist) {
       const is_password_correct =
         user_exist.password === (data["password"] as string);
 
       return is_password_correct
         ? setCurrentUserEmail(user_exist.email)
         : alert("Wrong password");
-    } else if (resetPasswordStep === 1 && user_exist) {
+    } else if (resetPass?.step === 1 && user_exist) {
       return setResetPass({ step: 2, email: data["email"] as string });
-    } else if (resetPasswordStep === 2 && user_exist && is_password_correct) {
+    } else if (resetPass?.step === 2 && user_exist && is_password_correct) {
       changeUserData({
-        password: data["password"] as string,
-        password_repeat: data["password_repeat"] as string,
+        data: { password: data["password"] as string },
+        email: resetPass?.email,
       });
       alert("Password has been changed");
       return setResetPass(null);
-    } else if (resetPasswordStep === 2 && !is_password_correct) {
+    } else if (resetPass?.step === 2 && !is_password_correct) {
       return alert("Passwords don't match");
     } else {
       return alert("User not found. Check if the email is correct");
@@ -75,7 +71,7 @@ export default function LogIn() {
     <div className={s.bg}>
       {!resetPass && (
         <form className={s.form} onSubmit={onSubmit}>
-          <h2>Вхід</h2>
+          <h2>Login</h2>
           <div>
             <input
               autoFocus
@@ -108,11 +104,7 @@ export default function LogIn() {
       )}
 
       {resetPass?.step === 1 && (
-        <form
-          className={s.form}
-          onSubmit={(e) => onSubmit(e, 1)}
-          onReset={stepBack}
-        >
+        <form className={s.form} onSubmit={onSubmit} onReset={stepBack}>
           <button type="reset" className={s.back}>
             <ArrowIcon />
           </button>
@@ -133,11 +125,7 @@ export default function LogIn() {
       )}
 
       {resetPass?.step === 2 && (
-        <form
-          className={s.form}
-          onSubmit={(e) => onSubmit(e, 2, resetPass.email)}
-          onReset={stepBack}
-        >
+        <form className={s.form} onSubmit={onSubmit} onReset={stepBack}>
           <button type="reset" className={s.back}>
             <ArrowIcon />
           </button>

@@ -3,7 +3,6 @@ import { Actions } from "./reducer";
 
 export interface IInitialState {
   modal: IModal | null;
-  alert: IAlert | null;
   registered_users: IUser[] | null;
   current_user_email: string | null;
 }
@@ -20,12 +19,11 @@ export interface IContext {
   state: IInitialState;
   dispatch: Dispatch<Actions>;
   setModal: (payload: IModal | null) => void;
-  setAlert: (payload: IAlert | null) => void;
   findUser: (payload: string) => IUser | undefined;
   deleteUser: (payload: string) => void;
   registerUser: (payload: IUser) => void;
   findUserData: (payload: string) => any | undefined;
-  changeUserData: (payload: Partial<IUser>) => void;
+  changeUserData: (payload: ChangeUserData) => void;
   setCurrentUserEmail: (payload: string | null) => void;
 }
 
@@ -45,19 +43,7 @@ export interface IChangePasswordDTO {
   password: string;
 }
 
-export type AlertType = "warning" | "cancel" | "info" | "success";
-
-export interface IAlert {
-  type: AlertType;
-  text?: string;
-  data?: any;
+export interface ChangeUserData {
+  data: Partial<IUser>;
+  email?: string;
 }
-
-export type IAlertInfo = {
-  [key in AlertType]: {
-    background: string;
-    color: string;
-    text: string;
-    img: JSX.Element;
-  };
-};

@@ -1,6 +1,6 @@
 import AvatarIcon from "@/public/icons/avatar";
 import s from "./profile.module.css";
-import DropDown from "./drop-down/drop-down";
+import DropDown from "../drop-down/drop-down";
 import { useGlobalContext } from "@/components/context/context";
 import { FormEvent } from "react";
 import Image from "next/image";
@@ -28,7 +28,7 @@ export default function Profile() {
       e.currentTarget.elements.namedItem("name") as HTMLInputElement
     ).value;
 
-    changeUserData({ name });
+    changeUserData({ data: { name } });
 
     alert("Name has been changed");
 
@@ -42,7 +42,7 @@ export default function Profile() {
       e.currentTarget.elements.namedItem("email") as HTMLInputElement
     ).value;
 
-    changeUserData({ email });
+    changeUserData({ data: { email } });
     setCurrentUserEmail(email);
 
     alert("Email has been changed");
@@ -63,7 +63,7 @@ export default function Profile() {
 
     if (password !== old_password) return alert("Old password is wrong");
 
-    changeUserData({ password: new_password });
+    changeUserData({ data: { password: new_password } });
 
     alert("Password has been changed");
 

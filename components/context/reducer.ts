@@ -4,6 +4,7 @@ import {
   IModal,
   IInitialState,
   IChangePasswordDTO,
+  ChangeUserData,
 } from "./types";
 
 export type ActionMap<M extends { [index: string]: any }> = {
@@ -35,7 +36,7 @@ export interface Payload {
   [Action.DELETE_USER]: string;
   [Action.REGISTER_USER]: IUser;
   [Action.CHANGE_PASSWORD]: IChangePasswordDTO;
-  [Action.CHANGE_USER_DATA]: Partial<IUser>;
+  [Action.CHANGE_USER_DATA]: ChangeUserData;
   [Action.SET_CURRENT_USER_EMAIL]: string | null;
 }
 
@@ -70,8 +71,11 @@ export const GlobalReducer = (
       const registered_users = (
         structuredClone(state.registered_users) as IUser[]
       ).map((user) => {
-        if (user.email === state.current_user_email) {
-          return { ...user, ...action.payload };
+        if (
+          user.email === state.current_user_email ||
+          user.email === action.payload.email
+        ) {
+          return { ...user, ...action.payload.data };
         } else return user;
       });
 
