@@ -7,7 +7,6 @@ import WarningIcon from "./icons/warning";
 import ErrorIcon from "./icons/error";
 import InformationalIcon from "./icons/informational";
 import SuccessfulIcon from "./icons/successful";
-import Portal from "../portal/portal";
 
 const info: IAlertInfo = {
   warning: {
@@ -65,11 +64,9 @@ export default function Alert() {
   if (!alert) return <></>;
 
   return (
-    <Portal>
-      <div className={s.alert}>
-        <p>{"text || alertInfo.text"}</p>
-        <i className={s.cross} />
-      </div>
-    </Portal>
+    <div className={s.alert}>
+      <p>{"text || alertInfo.text"}</p>
+      <i className={s.cross} />
+    </div>
   );
 }

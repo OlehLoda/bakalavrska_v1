@@ -31,14 +31,6 @@
   width: 100%;
 }
 
-.input {
-  background: var(--silver);
-  padding: 0 10px;
-
-  height: 70px;
-  border-radius: 10px;
-}
-
 .form button {
   height: 70px;
   background: var(--silver);

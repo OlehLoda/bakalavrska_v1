@@ -45,7 +45,7 @@ body {
   --black: #121212;
   --silver: rgb(198, 197, 185);
   --blue: rgb(98, 146, 158);
-  --red: rgb(195, 66, 63);
+  --red: rgb(255, 67, 63);
   --green: rgb(121, 206, 61);
 }
 
@@ -56,4 +56,12 @@ button {
 
 button:hover {
   opacity: 0.75;
+}
+
+.input {
+  background: var(--silver);
+  padding: 0 10px;
+
+  height: 70px;
+  border-radius: 10px;
 }

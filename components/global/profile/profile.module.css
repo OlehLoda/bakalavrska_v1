@@ -1,0 +1,85 @@
+.bg {
+  background: var(--blue);
+  height: fit-content;
+
+  align-self: center;
+  padding: 30px;
+
+  border-radius: 10px;
+  position: relative;
+}
+
+.bg h2 {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.content {
+  display: grid;
+  gap: 24px;
+
+  height: 100%;
+  align-content: start;
+}
+
+.opener {
+  height: 70px;
+  padding: 0 15px;
+  background: var(--onyx);
+  color: var(--white);
+  width: 100%;
+
+  border-radius: 10px;
+}
+
+.form {
+  display: grid;
+  gap: 10px;
+}
+
+.form > h3 {
+  text-align: center;
+}
+
+.buttonsWrap {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: start;
+  gap: 10px;
+}
+
+.buttonsWrap button {
+  background: var(--red);
+  height: 70px;
+  padding: 0 15px;
+
+  color: var(--white);
+  border-radius: 10px;
+}
+
+.generalInfo {
+  display: grid;
+  grid-template-areas: "avatar name lastname" "avatar email email";
+  grid-template-columns: repeat(3, auto);
+  justify-content: start;
+  justify-items: start;
+  column-gap: 10px;
+  align-items: center;
+}
+
+.avatar {
+  grid-area: avatar;
+}
+
+.name {
+  grid-area: name;
+}
+
+.lastname {
+  grid-area: lastname;
+}
+
+.email {
+  grid-area: email;
+}

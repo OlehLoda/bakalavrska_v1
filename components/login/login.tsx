@@ -83,7 +83,7 @@ export default function LogIn() {
               placeholder="Email"
               name="email"
               type="email"
-              className={s.input}
+              className="input"
             />
             <input
               minLength={8}
@@ -91,7 +91,7 @@ export default function LogIn() {
               placeholder="Password"
               name="password"
               type="password"
-              className={s.input}
+              className="input"
             />
           </div>
           <div>
@@ -124,7 +124,7 @@ export default function LogIn() {
             placeholder="Email"
             name="email"
             type="email"
-            className={s.input}
+            className="input"
           />
           <button type="submit" className={s.submit}>
             Continue
@@ -148,7 +148,7 @@ export default function LogIn() {
             required
             name="password"
             type="password"
-            className={s.input}
+            className="input"
             placeholder="Введіть новий пароль"
           />
           <input
@@ -156,7 +156,7 @@ export default function LogIn() {
             required
             name="password_repeat"
             type="password"
-            className={s.input}
+            className="input"
             placeholder="Повторіть пароль"
           />
           <button type="submit" className={s.submit}>
