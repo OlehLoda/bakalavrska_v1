@@ -5,9 +5,7 @@
   height: 100vh;
   height: 100dvh;
 
-  width: 25vw;
-  width: 25dvw;
-  max-width: 311px;
+  width: 311px;
 
   display: grid;
   gap: 10px;
@@ -134,7 +132,7 @@
 
   gap: 10px;
 
-  transition: 0.3s;
+  transition: opacity 0.3s;
 
   position: relative;
 }
@@ -182,6 +180,5 @@
 
 .header.small .link > p {
   max-width: 0px;
-
   transform: scaleX(0);
 }

@@ -21,6 +21,7 @@ export enum Action {
   SET_DATA = "SET_DATA",
   SET_ALERT = "SET_ALERT",
   SET_MODAL = "SET_MODAL",
+  DELETE_USER = "DELETE_USER",
   REGISTER_USER = "REGISTER_USER",
   CHANGE_PASSWORD = "CHANGE_PASSWORD",
   CHANGE_USER_DATA = "CHANGE_USER_DATA",
@@ -31,6 +32,7 @@ export interface Payload {
   [Action.SET_DATA]: IInitialState;
   [Action.SET_ALERT]: IAlert | null;
   [Action.SET_MODAL]: IModal | null;
+  [Action.DELETE_USER]: string;
   [Action.REGISTER_USER]: IUser;
   [Action.CHANGE_PASSWORD]: IChangePasswordDTO;
   [Action.CHANGE_USER_DATA]: Partial<IUser>;
@@ -74,6 +76,18 @@ export const GlobalReducer = (
       });
 
       return { ...state, registered_users };
+
+    case Action.DELETE_USER:
+      if (state.registered_users) {
+        return {
+          ...state,
+          registered_users: state.registered_users.filter(
+            (user) => user.email !== action.payload
+          ),
+        };
+      } else {
+        return state;
+      }
 
     default:
       return state;

@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import s from "./drop-down.module.css";
 
 interface Props {
@@ -7,17 +7,17 @@ interface Props {
 }
 
 export default function DropDown({ children, parent }: Props) {
-  const [open, setOpen] = useState(false);
-
-  const handleOpen = () => {
-    setOpen((prev) => !prev);
-  };
   return (
     <div className={s.dropDownWrap}>
-      <div className={s.parent} onClick={handleOpen}>
+      <div
+        className={s.parent}
+        onClick={({ currentTarget: { classList } }) =>
+          classList.toggle(s.opened)
+        }
+      >
         {parent}
       </div>
-      {open && <div className={s.children}>{children}</div>}
+      <div className={s.children}>{children}</div>
     </div>
   );
 }

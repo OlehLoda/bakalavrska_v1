@@ -1,4 +1,20 @@
 .dropDownWrap {
   display: grid;
-  gap: 10px;
+  grid-template-rows: auto 0fr;
+
+  transition: grid-template-rows 0.3s;
+}
+
+.dropDownWrap:has(.opened) {
+  grid-template-rows: auto 1fr;
+  align-content: start;
+}
+
+.children {
+  overflow: hidden;
+  transition: 0.3s;
+}
+
+.dropDownWrap:has(.opened) .children {
+  margin-top: 10px;
 }

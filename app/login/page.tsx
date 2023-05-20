@@ -32,13 +32,8 @@ export default function LoginPage() {
       const new_user = {
         email: email || "",
         password: "11111111",
-        password_repeat: "11111111",
         name: name || "",
         image: image || "",
-        balance: 0,
-        requests: null,
-        callbacks: null,
-        verifications: null,
       };
 
       registerUser(new_user);

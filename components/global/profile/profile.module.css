@@ -1,6 +1,10 @@
 .bg {
   background: var(--blue);
   height: fit-content;
+  max-height: calc(100vh - 60px);
+  max-height: calc(100dvh - 60px);
+
+  overflow-y: auto;
 
   align-self: center;
   padding: 30px;
@@ -60,7 +64,7 @@
 
 .generalInfo {
   display: grid;
-  grid-template-areas: "avatar name lastname" "avatar email email";
+  grid-template-areas: "avatar name" "avatar email";
   grid-template-columns: repeat(3, auto);
   justify-content: start;
   justify-items: start;
@@ -70,14 +74,12 @@
 
 .avatar {
   grid-area: avatar;
+
+  border-radius: 50%;
 }
 
 .name {
   grid-area: name;
-}
-
-.lastname {
-  grid-area: lastname;
 }
 
 .email {

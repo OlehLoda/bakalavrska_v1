@@ -21,13 +21,7 @@ export default function Header() {
 
   const {
     state: { current_user_email },
-    setCurrentUserEmail,
   } = useGlobalContext();
-
-  const logOut = () => {
-    signOut();
-    setCurrentUserEmail(null);
-  };
 
   const navMap: INavTab[] = [
     {
@@ -63,7 +57,7 @@ export default function Header() {
 
   const toggleHeader = () => headerRef.current?.classList.toggle(s.small);
 
-  if (pathname === "/login") return <i />;
+  if (!current_user_email) return <i />;
 
   return (
     <header className={s.header} ref={headerRef}>

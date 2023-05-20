@@ -4,6 +4,7 @@ import { Action, GlobalReducer } from "./reducer";
 import { IAlert, IInitialState, IModal, IUser } from "./types";
 import { GlobalContext, InitialState } from "./context";
 import { ReactNode, useReducer, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function GlobalContextProvider({
   children,
@@ -11,6 +12,9 @@ export default function GlobalContextProvider({
   children: ReactNode;
 }) {
   const [state, dispatch] = useReducer(GlobalReducer, InitialState);
+  const router = useRouter();
+
+  if (!state.current_user_email) router.push("/login");
 
   const setModal = (payload: IModal | null) => {
     return dispatch({ type: Action.SET_MODAL, payload });
@@ -34,6 +38,10 @@ export default function GlobalContextProvider({
 
   const changeUserData = (payload: Partial<IUser>) => {
     return dispatch({ type: Action.CHANGE_USER_DATA, payload });
+  };
+
+  const deleteUser = (payload: string) => {
+    return dispatch({ type: Action.DELETE_USER, payload });
   };
 
   const saveDataToDB = () => {
@@ -71,9 +79,10 @@ export default function GlobalContextProvider({
         setAlert,
         findUser,
         setModal,
+        deleteUser,
         registerUser,
-        changeUserData,
         findUserData,
+        changeUserData,
         setCurrentUserEmail,
       }}
     >

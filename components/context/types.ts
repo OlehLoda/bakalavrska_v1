@@ -10,50 +10,23 @@ export interface IInitialState {
 
 export interface IUser {
   [key: string]: any;
-  email: string;
-  password: string;
-  password_repeat?: string;
   name: string;
+  email: string;
   image: string;
-  balance: number;
-  requests: IRequest[] | null;
-  verifications: IVerification[] | null;
-  callbacks: ICallback[] | null;
+  password: string;
 }
 
 export interface IContext {
   state: IInitialState;
   dispatch: Dispatch<Actions>;
   setModal: (payload: IModal | null) => void;
-  findUser: (payload: string) => IUser | undefined;
-  registerUser: (payload: IUser) => void;
-  changeUserData: (payload: Partial<IUser>) => void;
-  findUserData: (payload: string) => any | undefined;
-  setCurrentUserEmail: (payload: string | null) => void;
   setAlert: (payload: IAlert | null) => void;
-}
-
-export interface IRequest {
-  [key: string]: string | number;
-  name: string;
-  title: string;
-  description: string;
-  priority: number;
-  price: number;
-}
-
-export interface ICallback {
-  [key: string]: string;
-  name: string;
-  email: string;
-  description: string;
-}
-
-export interface IVerification {
-  [key: string]: string | File;
-  email: string;
-  role: string;
-  certificate: File;
+  findUser: (payload: string) => IUser | undefined;
+  deleteUser: (payload: string) => void;
+  registerUser: (payload: IUser) => void;
+  findUserData: (payload: string) => any | undefined;
+  changeUserData: (payload: Partial<IUser>) => void;
+  setCurrentUserEmail: (payload: string | null) => void;
 }
 
 export enum ModalType {

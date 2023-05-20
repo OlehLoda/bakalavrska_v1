@@ -65,3 +65,11 @@ button:hover {
   height: 70px;
   border-radius: 10px;
 }
+
+.submit {
+  height: 70px;
+  border-radius: 10px;
+
+  padding: 0 10px;
+  background: var(--green);
+}
