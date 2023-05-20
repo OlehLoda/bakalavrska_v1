@@ -1,5 +1,4 @@
 import { FormEvent } from "react";
-import s from "./register.module.css";
 import { IUser } from "../context/types";
 import { useRouter } from "next/navigation";
 import { useGlobalContext } from "../context/context";
@@ -45,10 +44,10 @@ export default function Register() {
   };
 
   return (
-    <div className={s.bg}>
-      <form className={s.form} onSubmit={onSubmit}>
+    <div className="bg">
+      <form className="form" onSubmit={onSubmit}>
         <h2>Registration</h2>
-        <div>
+        <div className="wrap">
           <input
             autoFocus
             required
@@ -65,7 +64,7 @@ export default function Register() {
             className="input"
           />
         </div>
-        <div>
+        <div className="wrap">
           <input
             required
             minLength={8}

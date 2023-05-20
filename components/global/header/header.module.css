@@ -51,9 +51,11 @@
   transform: scaleX(-1) scaleY(1.5);
 }
 
-.logo {
+.header .logo {
   padding: 30px;
+}
 
+.logo {
   display: grid;
   grid-auto-flow: column;
   justify-content: start;
@@ -132,7 +134,7 @@
 
   gap: 10px;
 
-  transition: opacity 0.3s;
+  transition: opacity 0.3s, gap 0.3s;
 
   position: relative;
 }

@@ -59,7 +59,9 @@ export default function Header() {
 
   return (
     <header className={s.header} ref={headerRef}>
-      <Logo />
+      <Link href="/">
+        <Logo />
+      </Link>
       {navMap.map(({ children, href }, index) => (
         <Link href={href} key={index}>
           <div className={`${s.link} ${is_active(href)}`}>{children}</div>

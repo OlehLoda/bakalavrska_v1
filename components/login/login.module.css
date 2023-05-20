@@ -1,60 +1,16 @@
-.bg {
-  background: var(--blue);
-  height: fit-content;
-
-  align-self: center;
-  padding: 30px;
-
-  border-radius: 10px;
-  position: relative;
-}
-
-.bg h2 {
-  text-align: center;
-  font-size: 30px;
-  font-weight: 500;
-}
-
-.form {
+.registerForgot {
   display: grid;
-  gap: 24px;
-
-  height: 100%;
-  align-content: start;
-}
-
-.form > div {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-
-  width: 100%;
-}
-
-.form button {
-  height: 70px;
-  background: var(--silver);
-
-  display: grid;
-  grid-auto-flow: column;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-
-  background: var(--green);
-  border-radius: 10px;
-}
-
-.bg .registerForgot {
   grid-template-columns: repeat(2, auto);
   justify-content: space-between;
+
+  width: 100%;
 }
 
 .registerForgot > * {
   cursor: pointer;
 }
 
-.form .back {
+.back {
   position: absolute;
   top: 30px;
   left: 30px;

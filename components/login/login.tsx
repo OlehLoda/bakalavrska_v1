@@ -68,11 +68,11 @@ export default function LogIn() {
       : setResetPass(null);
 
   return (
-    <div className={s.bg}>
+    <div className="bg">
       {!resetPass && (
-        <form className={s.form} onSubmit={onSubmit}>
+        <form className="form" onSubmit={onSubmit}>
           <h2>Login</h2>
-          <div>
+          <div className="wrap">
             <input
               autoFocus
               required
@@ -90,7 +90,7 @@ export default function LogIn() {
               className="input"
             />
           </div>
-          <div>
+          <div className="wrap">
             <button type="submit">Увійти</button>
             <button type="button" onClick={() => signIn()} className={s.google}>
               Sign in with Google <GoogleIcon />
@@ -104,7 +104,7 @@ export default function LogIn() {
       )}
 
       {resetPass?.step === 1 && (
-        <form className={s.form} onSubmit={onSubmit} onReset={stepBack}>
+        <form className="form" onSubmit={onSubmit} onReset={stepBack}>
           <button type="reset" className={s.back}>
             <ArrowIcon />
           </button>
@@ -125,7 +125,7 @@ export default function LogIn() {
       )}
 
       {resetPass?.step === 2 && (
-        <form className={s.form} onSubmit={onSubmit} onReset={stepBack}>
+        <form className="form" onSubmit={onSubmit} onReset={stepBack}>
           <button type="reset" className={s.back}>
             <ArrowIcon />
           </button>
