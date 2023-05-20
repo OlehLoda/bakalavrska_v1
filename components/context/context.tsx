@@ -16,6 +16,7 @@ export const context: IContext = {
   setModal: () => null,
   setAlert: () => null,
   findUser: () => undefined,
+  deleteUser: () => null,
   registerUser: () => null,
   findUserData: () => null,
   changeUserData: () => null,
