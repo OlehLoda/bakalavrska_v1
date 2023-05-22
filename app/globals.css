@@ -115,6 +115,10 @@ button:hover {
 
   height: 70px;
   border-radius: 10px;
+
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: start;
 }
 
 .submit {

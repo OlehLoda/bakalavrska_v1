@@ -1,10 +1,10 @@
 import {
   IUser,
-  IAlert,
   IModal,
   IInitialState,
   IChangePasswordDTO,
   ChangeUserData,
+  IEvent,
 } from "./types";
 
 export type ActionMap<M extends { [index: string]: any }> = {
@@ -20,7 +20,6 @@ export type ActionMap<M extends { [index: string]: any }> = {
 
 export enum Action {
   SET_DATA = "SET_DATA",
-  SET_ALERT = "SET_ALERT",
   SET_MODAL = "SET_MODAL",
   DELETE_USER = "DELETE_USER",
   REGISTER_USER = "REGISTER_USER",
@@ -31,7 +30,6 @@ export enum Action {
 
 export interface Payload {
   [Action.SET_DATA]: IInitialState;
-  [Action.SET_ALERT]: IAlert | null;
   [Action.SET_MODAL]: IModal | null;
   [Action.DELETE_USER]: string;
   [Action.REGISTER_USER]: IUser;
@@ -49,9 +47,6 @@ export const GlobalReducer = (
   switch (action.type) {
     case Action.SET_MODAL:
       return { ...state, modal: action.payload };
-
-    case Action.SET_ALERT:
-      return { ...state, alert: action.payload };
 
     case Action.SET_DATA:
       return { ...action.payload };

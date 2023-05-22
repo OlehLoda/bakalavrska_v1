@@ -31,6 +31,7 @@ export default function Register() {
       name: data["name"],
       email: data["email"],
       password: data["password"],
+      events: [],
     };
 
     if (user_exist) {

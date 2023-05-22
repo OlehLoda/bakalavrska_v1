@@ -13,6 +13,7 @@ export interface IUser {
   email: string;
   image: string;
   password: string;
+  events: IEvent[];
 }
 
 export interface IContext {
@@ -46,4 +47,12 @@ export interface IChangePasswordDTO {
 export interface ChangeUserData {
   data: Partial<IUser>;
   email?: string;
+}
+
+export interface IEvent {
+  [key: string]: string | Date;
+  event_name: string;
+  event_time: Date;
+  event_location: string;
+  id: string;
 }

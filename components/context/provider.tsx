@@ -18,7 +18,7 @@ export default function GlobalContextProvider({
   useEffect(() => {
     if (!state.current_user_email && pathname !== "/register")
       router.push("/login");
-  }, []);
+  }, [state]);
 
   const setModal = (payload: IModal | null) => {
     return dispatch({ type: Action.SET_MODAL, payload });

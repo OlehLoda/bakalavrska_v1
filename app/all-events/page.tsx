@@ -1,12 +1,12 @@
 "use client";
+import AllEvents from "@/components/all-events/all-events";
 import { useGlobalContext } from "@/components/context/context";
 import Empty from "@/components/global/empty/empty";
-import Profile from "@/components/global/profile/profile";
 
 export default function AllEventsPage() {
   const {
     state: { current_user_email },
   } = useGlobalContext();
 
-  return current_user_email ? <Profile /> : <Empty />;
+  return current_user_email ? <AllEvents /> : <Empty />;
 }

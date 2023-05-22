@@ -1,5 +1,6 @@
 "use client";
 import { useGlobalContext } from "@/components/context/context";
+import { IUser } from "@/components/context/types";
 import LogIn from "@/components/login/login";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -29,11 +30,12 @@ export default function LoginPage() {
         return router.push("/");
       }
 
-      const new_user = {
+      const new_user: IUser = {
         email: email || "",
         password: "11111111",
         name: name || "",
         image: image || "",
+        events: [],
       };
 
       registerUser(new_user);
