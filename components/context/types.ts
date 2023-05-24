@@ -2,29 +2,44 @@ import { Dispatch } from "react";
 import { Actions } from "./reducer";
 
 export interface IInitialState {
-  modal: IModal | null;
   registered_users: IUser[] | null;
   current_user_email: string | null;
+  all_events: IEvent[];
+}
+
+export type IAllEvents = {
+  [key in Category]: IEvent[];
+} & {
+  my_events?: IEvent[];
+  invited_to?: IEvent[];
+};
+
+export enum Category {
+  MY_EVENTS = "my_events",
+  INVITED_TO = "invited_to",
 }
 
 export interface IUser {
   [key: string]: any;
+  id: string;
   name: string;
   email: string;
   image: string;
   password: string;
-  events: IEvent[];
+  events: IAllEvents;
 }
 
 export interface IContext {
   state: IInitialState;
   dispatch: Dispatch<Actions>;
-  setModal: (payload: IModal | null) => void;
   findUser: (payload: string) => IUser | undefined;
   deleteUser: (payload: string) => void;
+  createEvent: (payload: IEvent) => void;
   registerUser: (payload: IUser) => void;
   findUserData: (payload: string) => any | undefined;
+  getEventById: (payload: string) => IEvent | undefined;
   changeUserData: (payload: ChangeUserData) => void;
+  addGuestToEvent: (payload: { event_id: string; guest_email: string }) => void;
   setCurrentUserEmail: (payload: string | null) => void;
 }
 
@@ -50,9 +65,12 @@ export interface ChangeUserData {
 }
 
 export interface IEvent {
-  [key: string]: string | Date;
-  event_name: string;
-  event_time: Date;
-  event_location: string;
+  [key: string]: string | Date | string[];
+  name: string;
+  time: Date;
+  location: string;
+  description: string;
   id: string;
+  owner_id: string;
+  guests: string[];
 }

@@ -1,14 +1,15 @@
 "use client";
 import { useGlobalContext } from "@/components/context/context";
-import { IUser } from "@/components/context/types";
+import { IEvent, IUser } from "@/components/context/types";
 import LogIn from "@/components/login/login";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { v4 } from "uuid";
 
 export default function LoginPage() {
   const {
-    state: { current_user_email },
+    state: { current_user_email, all_events },
     findUser,
     registerUser,
     setCurrentUserEmail,
@@ -28,19 +29,23 @@ export default function LoginPage() {
       if (user_exist) {
         setCurrentUserEmail(user_exist.email);
         return router.push("/");
+      } else {
+        const new_user: IUser = {
+          id: v4(),
+          email: email || "",
+          password: "11111111",
+          name: name || "",
+          image: image || "",
+          events: {
+            my_events: [],
+            invited_to: [],
+          },
+        };
+
+        registerUser(new_user);
+        setCurrentUserEmail(new_user.email);
+        return router.push("/");
       }
-
-      const new_user: IUser = {
-        email: email || "",
-        password: "11111111",
-        name: name || "",
-        image: image || "",
-        events: [],
-      };
-
-      registerUser(new_user);
-      setCurrentUserEmail(new_user.email);
-      return router.push("/");
     } else return;
   }, [current_user_email, session]);
 

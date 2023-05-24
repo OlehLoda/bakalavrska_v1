@@ -8,3 +8,35 @@
 .h1 ~ p {
   text-align: center;
 }
+
+.categories {
+  display: grid;
+  grid-auto-flow: column;
+  gap: 10px;
+}
+
+.categories > p {
+  background: var(--silver);
+  padding: 10px;
+  text-align: center;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+
+  border-radius: 10px;
+}
+
+.categories > p:hover {
+  background: var(--white);
+  opacity: 0.7;
+}
+
+.categories > p.active {
+  background: var(--white);
+  opacity: 0.9;
+}
+
+.categories > p::first-letter {
+  text-transform: uppercase;
+}

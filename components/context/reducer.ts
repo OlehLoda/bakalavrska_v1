@@ -1,10 +1,9 @@
 import {
   IUser,
-  IModal,
-  IInitialState,
-  IChangePasswordDTO,
-  ChangeUserData,
   IEvent,
+  IInitialState,
+  ChangeUserData,
+  IChangePasswordDTO,
 } from "./types";
 
 export type ActionMap<M extends { [index: string]: any }> = {
@@ -20,21 +19,23 @@ export type ActionMap<M extends { [index: string]: any }> = {
 
 export enum Action {
   SET_DATA = "SET_DATA",
-  SET_MODAL = "SET_MODAL",
   DELETE_USER = "DELETE_USER",
+  CREATE_EVENT = "CREATE_EVENT",
   REGISTER_USER = "REGISTER_USER",
   CHANGE_PASSWORD = "CHANGE_PASSWORD",
   CHANGE_USER_DATA = "CHANGE_USER_DATA",
+  ADD_GUEST_TO_EVENT = "ADD_GUEST_TO_EVENT",
   SET_CURRENT_USER_EMAIL = "SET_CURRENT_USER_EMAIL",
 }
 
 export interface Payload {
   [Action.SET_DATA]: IInitialState;
-  [Action.SET_MODAL]: IModal | null;
   [Action.DELETE_USER]: string;
+  [Action.CREATE_EVENT]: IEvent;
   [Action.REGISTER_USER]: IUser;
   [Action.CHANGE_PASSWORD]: IChangePasswordDTO;
   [Action.CHANGE_USER_DATA]: ChangeUserData;
+  [Action.ADD_GUEST_TO_EVENT]: { event_id: string; guest_email: string };
   [Action.SET_CURRENT_USER_EMAIL]: string | null;
 }
 
@@ -45,9 +46,6 @@ export const GlobalReducer = (
   action: Actions
 ): IInitialState => {
   switch (action.type) {
-    case Action.SET_MODAL:
-      return { ...state, modal: action.payload };
-
     case Action.SET_DATA:
       return { ...action.payload };
 
@@ -87,6 +85,25 @@ export const GlobalReducer = (
       } else {
         return state;
       }
+
+    case Action.CREATE_EVENT:
+      return {
+        ...state,
+        all_events: [...(state.all_events || []), action.payload],
+      };
+
+    case Action.ADD_GUEST_TO_EVENT:
+      return {
+        ...state,
+        all_events: state.all_events.map((event) => {
+          if (event.id === action.payload.event_id) {
+            return {
+              ...event,
+              guests: [...(event.guests || []), action.payload.guest_email],
+            };
+          } else return event;
+        }),
+      };
 
     default:
       return state;

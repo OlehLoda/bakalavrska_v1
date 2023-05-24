@@ -1,33 +1,38 @@
-import moment from "moment";
-import { useGlobalContext } from "../context/context";
-import { IEvent } from "../context/types";
+import { useState } from "react";
 import s from "./all-events.module.css";
+import EventItem from "./event-item/event-item";
+import { useGlobalContext } from "../context/context";
+import { Category, IAllEvents } from "../context/types";
 
 export default function AllEvents() {
   const { state, findUserData } = useGlobalContext();
+  const [category, setCategory] = useState<Category>(Category.MY_EVENTS);
 
-  const events: IEvent[] = findUserData("events");
+  const events: IAllEvents = findUserData("events");
+
+  const events_by_category = events[category] || [];
 
   return (
     <div className="bg">
       <div className="form">
         <h1 className={s.h1}>AllEvents</h1>
-        {events.length > 0 ? (
-          events.map(({ event_name, event_time, event_location, id }) => {
-            const date = moment(event_time).format("DD.MM.YYYY HH:mm");
-            return (
-              <div key={id}>
-                <h2>{event_name}</h2>
-                <p>{date}</p>
-                <p>{event_location}</p>
-              </div>
-            );
+        <div className={s.categories}>
+          {Object.values(Category).map((name) => (
+            <p
+              key={name}
+              className={name === category ? s.active : ""}
+              onClick={() => setCategory(name)}
+            >
+              {name.replace(/_/gi, " ")}
+            </p>
+          ))}
+        </div>
+        {events_by_category.length > 0 ? (
+          events_by_category.map((event) => {
+            return <EventItem {...event} key={event.id} />;
           })
         ) : (
-          <h2>
-            You don't have any events yet. You can create it by pressing "Create
-            event" button in menu
-          </h2>
+          <h2>You don't have any events in this category yet.</h2>
         )}
       </div>
     </div>

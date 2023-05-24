@@ -1,0 +1,33 @@
+.guests {
+  display: grid;
+  gap: 10px;
+}
+
+.guest {
+  background: var(--silver);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.guest.user {
+  display: grid;
+  grid-template-areas: "avatar name" "avatar email";
+
+  justify-content: start;
+  align-items: center;
+  align-content: center;
+  column-gap: 10px;
+}
+
+.avatar {
+  grid-area: avatar;
+  border-radius: 50%;
+}
+
+.name {
+  grid-area: name;
+}
+
+.email {
+  grid-area: email;
+}

@@ -59,6 +59,11 @@ body {
 
   border-radius: 10px;
   position: relative;
+
+  overflow-y: auto;
+
+  max-height: calc(100vh - 60px);
+  max-height: calc(100dvh - 60px);
 }
 
 .form {
@@ -67,6 +72,10 @@ body {
 
   height: 100%;
   align-content: start;
+}
+
+.form label {
+  font-weight: 600;
 }
 
 h1 {
@@ -114,11 +123,19 @@ button:hover {
   padding: 0 10px;
 
   height: 70px;
+  width: 100%;
   border-radius: 10px;
 
   display: grid;
   grid-auto-flow: column;
   justify-content: start;
+}
+
+textarea.input {
+  height: unset;
+  min-height: 70px;
+  resize: vertical;
+  padding-top: 15px;
 }
 
 .submit {

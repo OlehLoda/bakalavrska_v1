@@ -2,9 +2,16 @@
 
 import { Action, GlobalReducer } from "./reducer";
 import { GlobalContext, InitialState } from "./context";
-import { ReactNode, useReducer, useEffect } from "react";
+import { ReactNode, useReducer, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { ChangeUserData, IInitialState, IModal, IUser } from "./types";
+import {
+  ChangeUserData,
+  IAllEvents,
+  IEvent,
+  IInitialState,
+  IModal,
+  IUser,
+} from "./types";
 
 export default function GlobalContextProvider({
   children,
@@ -15,14 +22,36 @@ export default function GlobalContextProvider({
   const router = useRouter();
   const pathname = usePathname();
 
-  useEffect(() => {
-    if (!state.current_user_email && pathname !== "/register")
-      router.push("/login");
-  }, [state]);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  const setModal = (payload: IModal | null) => {
-    return dispatch({ type: Action.SET_MODAL, payload });
-  };
+  useEffect(() => {
+    if (loading) {
+      setLoading(false);
+    } else {
+      if (state.current_user_email == null && pathname !== "/register") {
+        router.push("/login");
+      }
+    }
+  }, [pathname]);
+
+  useEffect(() => {
+    if (typeof state.current_user_email !== null) {
+      const my_events = state.all_events.filter(
+        (e) => e.owner_id === findUser(state.current_user_email!)?.id
+      );
+
+      const invited_to = state.all_events.filter((e) =>
+        e.guests.includes(state.current_user_email!)
+      );
+
+      const events: IAllEvents = {
+        my_events,
+        invited_to,
+      };
+
+      changeUserData({ data: { events } });
+    }
+  }, [state.current_user_email, state.all_events]);
 
   const setData = (payload: IInitialState) => {
     return dispatch({ type: Action.SET_DATA, payload });
@@ -43,6 +72,20 @@ export default function GlobalContextProvider({
   const deleteUser = (payload: string) => {
     return dispatch({ type: Action.DELETE_USER, payload });
   };
+
+  const createEvent = (payload: IEvent) => {
+    return dispatch({ type: Action.CREATE_EVENT, payload });
+  };
+
+  const addGuestToEvent = (payload: {
+    event_id: string;
+    guest_email: string;
+  }) => {
+    return dispatch({ type: Action.ADD_GUEST_TO_EVENT, payload });
+  };
+
+  const getEventById = (id: string) =>
+    state.all_events.find((e) => e.id === id);
 
   const saveDataToDB = () => {
     localStorage.setItem("state", JSON.stringify(state));
@@ -77,11 +120,13 @@ export default function GlobalContextProvider({
         state,
         dispatch,
         findUser,
-        setModal,
         deleteUser,
+        createEvent,
         registerUser,
         findUserData,
+        getEventById,
         changeUserData,
+        addGuestToEvent,
         setCurrentUserEmail,
       }}
     >

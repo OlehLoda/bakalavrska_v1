@@ -1,19 +1,24 @@
 import { FormEvent } from "react";
 import s from "./create-event.module.css";
 import { v4 } from "uuid";
-import { IEvent } from "../context/types";
+import { IAllEvents, IEvent } from "../context/types";
 import { useGlobalContext } from "../context/context";
 
 export default function CreateEvent() {
-  const { state, findUserData, changeUserData } = useGlobalContext();
+  const { state, findUserData, changeUserData, createEvent } =
+    useGlobalContext();
+
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const new_event_info: IEvent = {
-      event_name: "",
-      event_time: new Date(),
-      event_location: "",
+      name: "",
+      time: new Date(),
+      location: "",
+      description: "",
       id: v4(),
+      owner_id: findUserData("id"),
+      guests: [],
     };
 
     Array.from(e.currentTarget.elements)
@@ -24,13 +29,11 @@ export default function CreateEvent() {
           el.name === "date" ? el.valueAsDate! : el.value;
       });
 
-    const old_events: IEvent[] = findUserData("events");
+    createEvent(new_event_info);
 
-    changeUserData({ data: { events: [...old_events, new_event_info] } });
+    alert("Event successfully created");
 
-    console.log(new_event_info);
-
-    return alert("Event successfully created");
+    return e.currentTarget.reset();
   };
 
   return (
@@ -44,7 +47,7 @@ export default function CreateEvent() {
             required
             type="text"
             placeholder="Event name"
-            name="event_name"
+            name="name"
           />
         </label>
         <label className={s.label}>
@@ -53,18 +56,27 @@ export default function CreateEvent() {
             className="input"
             required
             type="datetime-local"
-            name="event_time"
+            name="time"
             max="2028-12-31T23:59"
           />
         </label>
         <label className={s.label}>
-          Enter event location
+          Enter event address
           <input
             className="input"
             required
             type="text"
-            placeholder="Event location"
-            name="event_location"
+            placeholder="Event address"
+            name="location"
+          />
+        </label>
+        <label className={s.label}>
+          Enter event description
+          <textarea
+            className="input"
+            placeholder="Event description"
+            name="description"
+            rows={5}
           />
         </label>
         <button type="submit">Submit</button>

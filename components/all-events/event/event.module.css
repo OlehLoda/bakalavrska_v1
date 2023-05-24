@@ -1,0 +1,20 @@
+.event {
+  width: 100%;
+  height: fit-content;
+  background: var(--silver);
+
+  padding: 24px 16px;
+  border-radius: 10px;
+}
+
+.name {
+  text-align: start;
+}
+
+.date {
+  font-weight: 300;
+}
+
+.location {
+  text-decoration: underline;
+}
