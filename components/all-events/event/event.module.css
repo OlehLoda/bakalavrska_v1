@@ -18,3 +18,17 @@
 .location {
   text-decoration: underline;
 }
+
+.edit {
+  position: absolute;
+
+  right: 30px;
+  top: 30px;
+
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.edit:hover {
+  transform: scale(1.05);
+}

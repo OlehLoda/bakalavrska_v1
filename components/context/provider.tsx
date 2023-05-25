@@ -2,15 +2,14 @@
 
 import { Action, GlobalReducer } from "./reducer";
 import { GlobalContext, InitialState } from "./context";
-import { ReactNode, useReducer, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { ReactNode, useReducer, useEffect, useState } from "react";
 import {
-  ChangeUserData,
-  IAllEvents,
-  IEvent,
-  IInitialState,
-  IModal,
   IUser,
+  IEvent,
+  IAllEvents,
+  IInitialState,
+  ChangeUserData,
 } from "./types";
 
 export default function GlobalContextProvider({
@@ -77,6 +76,10 @@ export default function GlobalContextProvider({
     return dispatch({ type: Action.CREATE_EVENT, payload });
   };
 
+  const editEvent = (payload: Partial<IEvent>) => {
+    return dispatch({ type: Action.EDIT_EVENT, payload });
+  };
+
   const addGuestToEvent = (payload: {
     event_id: string;
     guest_email: string;
@@ -120,6 +123,7 @@ export default function GlobalContextProvider({
         state,
         dispatch,
         findUser,
+        editEvent,
         deleteUser,
         createEvent,
         registerUser,

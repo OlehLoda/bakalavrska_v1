@@ -1,8 +1,6 @@
-import { useGlobalContext } from "@/components/context/context";
 import s from "./guests.module.css";
-import Image from "next/image";
-import AvatarIcon from "@/public/icons/avatar";
 import UserGuest from "./user-guest";
+import { useGlobalContext } from "@/components/context/context";
 
 interface Props {
   guests: string[];
@@ -19,7 +17,7 @@ export default function Guests({ guests, is_owner, toggleAddGuests }: Props) {
         guests.map((guest, index) => {
           const user = findUser(guest);
           return user ? (
-            <UserGuest {...user} key={index} />
+            <UserGuest user={user} is_owner={is_owner} key={index} />
           ) : (
             <p className={s.guest} key={index}>
               {guest}

@@ -19,6 +19,7 @@ export type ActionMap<M extends { [index: string]: any }> = {
 
 export enum Action {
   SET_DATA = "SET_DATA",
+  EDIT_EVENT = "EDIT_EVENT",
   DELETE_USER = "DELETE_USER",
   CREATE_EVENT = "CREATE_EVENT",
   REGISTER_USER = "REGISTER_USER",
@@ -30,6 +31,7 @@ export enum Action {
 
 export interface Payload {
   [Action.SET_DATA]: IInitialState;
+  [Action.EDIT_EVENT]: Partial<IEvent>;
   [Action.DELETE_USER]: string;
   [Action.CREATE_EVENT]: IEvent;
   [Action.REGISTER_USER]: IUser;
@@ -100,6 +102,21 @@ export const GlobalReducer = (
             return {
               ...event,
               guests: [...(event.guests || []), action.payload.guest_email],
+            };
+          } else return event;
+        }),
+      };
+
+    case Action.EDIT_EVENT:
+      console.log(action.payload);
+
+      return {
+        ...state,
+        all_events: state.all_events.map((event) => {
+          if (action.payload.id === event.id) {
+            return {
+              ...event,
+              ...action.payload,
             };
           } else return event;
         }),

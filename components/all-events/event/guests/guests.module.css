@@ -28,6 +28,10 @@
   grid-area: name;
 }
 
+.name > span {
+  font-weight: 300;
+}
+
 .email {
   grid-area: email;
 }

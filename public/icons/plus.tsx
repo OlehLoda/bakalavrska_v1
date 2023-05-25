@@ -10,7 +10,6 @@ export default function PlusIcon(props: SVGProps<SVGSVGElement>) {
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <circle cx="18" cy="18" r="17.5" stroke="black" />
       <rect
         x="18.75"
         y="27.75"

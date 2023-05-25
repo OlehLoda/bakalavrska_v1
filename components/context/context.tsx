@@ -13,6 +13,7 @@ export const context: IContext = {
   state: InitialState,
   dispatch: () => null,
   findUser: () => undefined,
+  editEvent: () => null,
   deleteUser: () => null,
   createEvent: () => null,
   registerUser: () => null,

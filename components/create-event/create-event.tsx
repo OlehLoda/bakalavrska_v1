@@ -1,32 +1,34 @@
 import { FormEvent } from "react";
 import s from "./create-event.module.css";
 import { v4 } from "uuid";
-import { IAllEvents, IEvent } from "../context/types";
+import { IEvent } from "../context/types";
 import { useGlobalContext } from "../context/context";
 
 export default function CreateEvent() {
-  const { state, findUserData, changeUserData, createEvent } =
-    useGlobalContext();
+  const {
+    state: { current_user_email },
+    findUserData,
+    createEvent,
+  } = useGlobalContext();
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const new_event_info: IEvent = {
       name: "",
-      time: new Date(),
+      time: "",
       location: "",
       description: "",
       id: v4(),
       owner_id: findUserData("id"),
-      guests: [],
+      guests: [current_user_email!],
     };
 
     Array.from(e.currentTarget.elements)
       .filter((el) => (el as HTMLInputElement).name.length > 0)
       .forEach((element) => {
         const el = element as HTMLInputElement;
-        new_event_info[el.name] =
-          el.name === "date" ? el.valueAsDate! : el.value;
+        new_event_info[el.name] = el.value;
       });
 
     createEvent(new_event_info);
@@ -55,8 +57,8 @@ export default function CreateEvent() {
           <input
             className="input"
             required
-            type="datetime-local"
             name="time"
+            type="datetime-local"
             max="2028-12-31T23:59"
           />
         </label>

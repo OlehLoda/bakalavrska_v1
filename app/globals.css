@@ -76,6 +76,9 @@ body {
 
 .form label {
   font-weight: 600;
+
+  display: grid;
+  gap: 10px;
 }
 
 h1 {

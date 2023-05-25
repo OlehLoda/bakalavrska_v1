@@ -1,7 +1,8 @@
-import ModalWrapper from "@/components/global/modal-wrapper/modal-wrapper";
+import PlusIcon from "@/public/icons/plus";
 import s from "./add-guest-modal.module.css";
 import { Dispatch, FormEvent, SetStateAction } from "react";
 import { useGlobalContext } from "@/components/context/context";
+import ModalWrapper from "@/components/global/modal-wrapper/modal-wrapper";
 
 interface Props {
   onClose: () => void;
@@ -32,11 +33,14 @@ export default function AddGuestModal({
 
     return setLoading(true);
   };
+
   return (
     <ModalWrapper onClose={onClose}>
       <form className={s.addGuestModal} onSubmit={onSubmit}>
+        <PlusIcon className={s.cross} onClick={onClose} />
         <h2>Add guest</h2>
         <input
+          required
           name="guest_email"
           type="email"
           className="input"

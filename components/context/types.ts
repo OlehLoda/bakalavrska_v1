@@ -33,6 +33,7 @@ export interface IContext {
   state: IInitialState;
   dispatch: Dispatch<Actions>;
   findUser: (payload: string) => IUser | undefined;
+  editEvent: (payload: Partial<IEvent>) => void;
   deleteUser: (payload: string) => void;
   createEvent: (payload: IEvent) => void;
   registerUser: (payload: IUser) => void;
@@ -65,9 +66,9 @@ export interface ChangeUserData {
 }
 
 export interface IEvent {
-  [key: string]: string | Date | string[];
+  [key: string]: string | string[] | undefined;
   name: string;
-  time: Date;
+  time: string;
   location: string;
   description: string;
   id: string;

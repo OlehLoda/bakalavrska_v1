@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { IEvent } from "@/components/context/types";
 import AddGuestModal from "./add-guest-modal/add-guest-modal";
 import { useGlobalContext } from "@/components/context/context";
+import EditIcon from "@/public/icons/edit";
+import EditEventModal from "./edit-event-modal/edit-event-modal";
 
 export default function Event() {
   const {
@@ -16,8 +18,9 @@ export default function Event() {
   const params = useParams();
   const [loading, setLoading] = useState<boolean>(true);
   const [event, setEvent] = useState<IEvent | null>(null);
-  const [addGuestsOpen, setAddGuestsOpen] = useState<boolean>(false);
   const event_id = (params?.["event_id"] as string) || null;
+  const [addGuestsOpen, setAddGuestsOpen] = useState<boolean>(false);
+  const [editEventOpen, setEditEventOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if (loading) {
@@ -28,6 +31,7 @@ export default function Event() {
   }, [loading, event_id]);
 
   const toggleAddGuests = () => setAddGuestsOpen((prev) => !prev);
+  const toggleEditEvent = () => setEditEventOpen((prev) => !prev);
 
   if (!event) return <div className="bg">Loading...</div>;
 
@@ -40,6 +44,7 @@ export default function Event() {
   return (
     <div className="bg">
       <div className="form">
+        {is_owner && <EditIcon onClick={toggleEditEvent} className={s.edit} />}
         <h1>{name}</h1>
         <label>
           Date:
@@ -58,6 +63,13 @@ export default function Event() {
           is_owner={is_owner}
           toggleAddGuests={toggleAddGuests}
         />
+        {editEventOpen && (
+          <EditEventModal
+            event={event}
+            setLoading={setLoading}
+            onClose={toggleEditEvent}
+          />
+        )}
         {addGuestsOpen && (
           <AddGuestModal
             event_id={id}
