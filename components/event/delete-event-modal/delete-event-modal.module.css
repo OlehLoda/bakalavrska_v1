@@ -1,0 +1,30 @@
+.deleteEventModal {
+  display: grid;
+  gap: 16px;
+
+  position: relative;
+}
+
+.deleteEventModal > h2 {
+  max-width: 340px;
+  margin: 0 auto;
+}
+
+.cross {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  transform: rotate(45deg);
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.cross:hover {
+  transform: rotate(45deg) scale(1.05);
+}
+
+.deleteEventModal > div {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}

@@ -7,6 +7,8 @@
   background: var(--silver);
   border-radius: 10px;
   padding: 16px;
+
+  position: relative;
 }
 
 .guest.user {
@@ -34,4 +36,15 @@
 
 .email {
   grid-area: email;
+}
+
+.delete {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 16px;
+
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
 }

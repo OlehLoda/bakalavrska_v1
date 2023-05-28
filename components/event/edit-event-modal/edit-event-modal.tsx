@@ -14,6 +14,7 @@ interface Props {
 export default function EditEventModal({ onClose, event, setLoading }: Props) {
   const { editEvent } = useGlobalContext();
   const { name, time, location, description, id: event_id } = event;
+
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 

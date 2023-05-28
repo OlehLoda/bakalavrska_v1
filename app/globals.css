@@ -21,6 +21,7 @@ body {
 }
 
 * {
+  user-select: none;
   font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
@@ -141,10 +142,20 @@ textarea.input {
   padding-top: 15px;
 }
 
-.submit {
+button[type="submit"],
+button[type="reset"],
+.submit,
+.reset {
   height: 70px;
   border-radius: 10px;
 
   padding: 0 10px;
+  background: var(--red);
+
+  font-weight: 600;
+}
+
+button[type="submit"],
+.submit {
   background: var(--green);
 }

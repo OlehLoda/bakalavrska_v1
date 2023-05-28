@@ -19,11 +19,11 @@ export default function AddGuestModal({
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const guest_email = (
-      e.currentTarget.elements.namedItem("guest_email") as HTMLInputElement
+    const guest = (
+      e.currentTarget.elements.namedItem("guest") as HTMLInputElement
     ).value;
 
-    addGuestToEvent({ guest_email, event_id });
+    addGuestToEvent({ guest, event_id });
 
     alert("Guest successfully added");
 
@@ -41,7 +41,7 @@ export default function AddGuestModal({
         <h2>Add guest</h2>
         <input
           required
-          name="guest_email"
+          name="guest"
           type="email"
           className="input"
           placeholder="Enter guest email"

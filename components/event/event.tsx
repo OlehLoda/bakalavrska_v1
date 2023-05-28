@@ -1,13 +1,21 @@
 import moment from "moment";
 import s from "./event.module.css";
 import Guests from "./guests/guests";
+import EditIcon from "@/public/icons/edit";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import DeleteIcon from "@/public/icons/delete";
 import { IEvent } from "@/components/context/types";
 import AddGuestModal from "./add-guest-modal/add-guest-modal";
 import { useGlobalContext } from "@/components/context/context";
-import EditIcon from "@/public/icons/edit";
 import EditEventModal from "./edit-event-modal/edit-event-modal";
+import DeleteEventModal from "./delete-event-modal/delete-event-modal";
+
+enum Modal {
+  addGuests,
+  editEvent,
+  deleteEvent,
+}
 
 export default function Event() {
   const {
@@ -19,8 +27,7 @@ export default function Event() {
   const [loading, setLoading] = useState<boolean>(true);
   const [event, setEvent] = useState<IEvent | null>(null);
   const event_id = (params?.["event_id"] as string) || null;
-  const [addGuestsOpen, setAddGuestsOpen] = useState<boolean>(false);
-  const [editEventOpen, setEditEventOpen] = useState<boolean>(false);
+  const [modal, setModal] = useState<Modal | null>(null);
 
   useEffect(() => {
     if (loading) {
@@ -29,9 +36,6 @@ export default function Event() {
       event_id && setEvent(getEventById(event_id) || null);
     }
   }, [loading, event_id]);
-
-  const toggleAddGuests = () => setAddGuestsOpen((prev) => !prev);
-  const toggleEditEvent = () => setEditEventOpen((prev) => !prev);
 
   if (!event) return <div className="bg">Loading...</div>;
 
@@ -44,7 +48,18 @@ export default function Event() {
   return (
     <div className="bg">
       <div className="form">
-        {is_owner && <EditIcon onClick={toggleEditEvent} className={s.edit} />}
+        {is_owner && (
+          <EditIcon
+            onClick={() => setModal(Modal.editEvent)}
+            className={s.edit}
+          />
+        )}
+        {is_owner && (
+          <DeleteIcon
+            onClick={() => setModal(Modal.deleteEvent)}
+            className={s.delete}
+          />
+        )}
         <h1>{name}</h1>
         <label>
           Date:
@@ -59,22 +74,31 @@ export default function Event() {
           <p className={s.description}>{description}</p>
         </label>
         <Guests
+          event_id={id}
           guests={guests}
           is_owner={is_owner}
-          toggleAddGuests={toggleAddGuests}
+          setLoading={setLoading}
+          toggleAddGuests={() => setModal(Modal.addGuests)}
         />
-        {editEventOpen && (
+        {modal === Modal.editEvent && (
           <EditEventModal
             event={event}
             setLoading={setLoading}
-            onClose={toggleEditEvent}
+            onClose={() => setModal(null)}
           />
         )}
-        {addGuestsOpen && (
+        {modal === Modal.addGuests && (
           <AddGuestModal
             event_id={id}
             setLoading={setLoading}
-            onClose={toggleAddGuests}
+            onClose={() => setModal(null)}
+          />
+        )}
+        {modal === Modal.deleteEvent && (
+          <DeleteEventModal
+            event_id={id}
+            setLoading={setLoading}
+            onClose={() => setModal(null)}
           />
         )}
       </div>

@@ -82,7 +82,6 @@ export default function LogIn() {
               type="email"
               className="input"
             />
-            <input />
             <InputPass required name="password" />
           </div>
           <div className="wrap">

@@ -4,6 +4,7 @@ import { IUser } from "../context/types";
 import { useRouter } from "next/navigation";
 import { useGlobalContext } from "../context/context";
 import InputPass from "../global/input-pass/input-pass";
+import Link from "next/link";
 
 export default function Register() {
   const { findUser, registerUser } = useGlobalContext();
@@ -82,6 +83,7 @@ export default function Register() {
         <button type="submit" className="submit">
           Submit
         </button>
+        <Link href={"/login"}>Already have an account?</Link>
       </form>
     </div>
   );

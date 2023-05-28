@@ -22,11 +22,13 @@ export enum Action {
   EDIT_EVENT = "EDIT_EVENT",
   DELETE_USER = "DELETE_USER",
   CREATE_EVENT = "CREATE_EVENT",
+  DELETE_EVENT = "DELETE_EVENT",
   REGISTER_USER = "REGISTER_USER",
   CHANGE_PASSWORD = "CHANGE_PASSWORD",
   CHANGE_USER_DATA = "CHANGE_USER_DATA",
   ADD_GUEST_TO_EVENT = "ADD_GUEST_TO_EVENT",
   SET_CURRENT_USER_EMAIL = "SET_CURRENT_USER_EMAIL",
+  DELETE_GUEST_FROM_EVENT = "DELETE_GUEST_FROM_EVENT",
 }
 
 export interface Payload {
@@ -34,11 +36,13 @@ export interface Payload {
   [Action.EDIT_EVENT]: Partial<IEvent>;
   [Action.DELETE_USER]: string;
   [Action.CREATE_EVENT]: IEvent;
+  [Action.DELETE_EVENT]: string;
   [Action.REGISTER_USER]: IUser;
   [Action.CHANGE_PASSWORD]: IChangePasswordDTO;
   [Action.CHANGE_USER_DATA]: ChangeUserData;
-  [Action.ADD_GUEST_TO_EVENT]: { event_id: string; guest_email: string };
+  [Action.ADD_GUEST_TO_EVENT]: { event_id: string; guest: string };
   [Action.SET_CURRENT_USER_EMAIL]: string | null;
+  [Action.DELETE_GUEST_FROM_EVENT]: { event_id: string; guest: string };
 }
 
 export type Actions = ActionMap<Payload>[keyof ActionMap<Payload>];
@@ -101,15 +105,26 @@ export const GlobalReducer = (
           if (event.id === action.payload.event_id) {
             return {
               ...event,
-              guests: [...(event.guests || []), action.payload.guest_email],
+              guests: [...(event.guests || []), action.payload.guest],
+            };
+          } else return event;
+        }),
+      };
+
+    case Action.DELETE_GUEST_FROM_EVENT:
+      return {
+        ...state,
+        all_events: state.all_events.map((event) => {
+          if (event.id === action.payload.event_id) {
+            return {
+              ...event,
+              guests: event.guests.filter((g) => g !== action.payload.guest),
             };
           } else return event;
         }),
       };
 
     case Action.EDIT_EVENT:
-      console.log(action.payload);
-
       return {
         ...state,
         all_events: state.all_events.map((event) => {
@@ -120,6 +135,14 @@ export const GlobalReducer = (
             };
           } else return event;
         }),
+      };
+
+    case Action.DELETE_EVENT:
+      return {
+        ...state,
+        all_events: state.all_events.filter(
+          (event) => event.id !== action.payload
+        ),
       };
 
     default:

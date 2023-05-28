@@ -19,6 +19,7 @@
   text-decoration: underline;
 }
 
+.delete,
 .edit {
   position: absolute;
 
@@ -27,8 +28,16 @@
 
   cursor: pointer;
   transition: 0.3s;
+
+  width: 24px;
+  height: 24px;
 }
 
+.delete {
+  right: 62px;
+}
+
+.delete:hover,
 .edit:hover {
   transform: scale(1.05);
 }

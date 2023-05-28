@@ -16,12 +16,14 @@ export const context: IContext = {
   editEvent: () => null,
   deleteUser: () => null,
   createEvent: () => null,
+  deleteEvent: () => null,
   registerUser: () => null,
   findUserData: () => null,
   getEventById: () => undefined,
   changeUserData: () => null,
   addGuestToEvent: () => null,
   setCurrentUserEmail: () => null,
+  deleteGuestFromEvent: () => null,
 };
 
 export const GlobalContext = createContext(context);

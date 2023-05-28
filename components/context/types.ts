@@ -34,14 +34,16 @@ export interface IContext {
   dispatch: Dispatch<Actions>;
   findUser: (payload: string) => IUser | undefined;
   editEvent: (payload: Partial<IEvent>) => void;
+  deleteEvent: (payload: string) => void;
   deleteUser: (payload: string) => void;
   createEvent: (payload: IEvent) => void;
   registerUser: (payload: IUser) => void;
   findUserData: (payload: string) => any | undefined;
   getEventById: (payload: string) => IEvent | undefined;
   changeUserData: (payload: ChangeUserData) => void;
-  addGuestToEvent: (payload: { event_id: string; guest_email: string }) => void;
+  addGuestToEvent: (payload: { event_id: string; guest: string }) => void;
   setCurrentUserEmail: (payload: string | null) => void;
+  deleteGuestFromEvent: (payload: { event_id: string; guest: string }) => void;
 }
 
 export enum ModalType {

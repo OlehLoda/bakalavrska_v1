@@ -80,11 +80,19 @@ export default function GlobalContextProvider({
     return dispatch({ type: Action.EDIT_EVENT, payload });
   };
 
-  const addGuestToEvent = (payload: {
-    event_id: string;
-    guest_email: string;
-  }) => {
+  const addGuestToEvent = (payload: { event_id: string; guest: string }) => {
     return dispatch({ type: Action.ADD_GUEST_TO_EVENT, payload });
+  };
+
+  const deleteGuestFromEvent = (payload: {
+    event_id: string;
+    guest: string;
+  }) => {
+    return dispatch({ type: Action.DELETE_GUEST_FROM_EVENT, payload });
+  };
+
+  const deleteEvent = (payload: string) => {
+    return dispatch({ type: Action.DELETE_EVENT, payload });
   };
 
   const getEventById = (id: string) =>
@@ -126,12 +134,14 @@ export default function GlobalContextProvider({
         editEvent,
         deleteUser,
         createEvent,
+        deleteEvent,
         registerUser,
         findUserData,
         getEventById,
         changeUserData,
         addGuestToEvent,
         setCurrentUserEmail,
+        deleteGuestFromEvent,
       }}
     >
       {children}
