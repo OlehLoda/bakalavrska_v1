@@ -9,8 +9,8 @@ export default function Home() {
           This is main page of <Logo /> app
         </h1>
         <p>
-          You can create event and invite guests, to do it press "Create event"
-          button in the left-side menu
+          You can create event by pressing "Create event" button in the
+          left-side menu
         </p>
       </div>
     </div>
