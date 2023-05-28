@@ -5,6 +5,7 @@ import { useGlobalContext } from "../context/context";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import ArrowIcon from "@/public/icons/arrow";
+import InputPass from "../global/input-pass/input-pass";
 
 interface IChangePasswordStep {
   step: number;
@@ -81,14 +82,8 @@ export default function LogIn() {
               type="email"
               className="input"
             />
-            <input
-              minLength={8}
-              required
-              placeholder="Password"
-              name="password"
-              type="password"
-              className="input"
-            />
+            <input />
+            <InputPass required name="password" />
           </div>
           <div className="wrap">
             <button type="submit">Увійти</button>

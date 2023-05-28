@@ -1,0 +1,7 @@
+.eyeCrosser.crossed {
+  stroke-width: 0px;
+}
+
+.eyeCrosser {
+  user-select: none;
+}

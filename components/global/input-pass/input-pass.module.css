@@ -1,0 +1,16 @@
+.eye {
+  width: 24px;
+  aspect-ratio: 1 / 1;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 16px;
+
+  cursor: pointer;
+}
+
+.inputContainer {
+  position: relative;
+  width: 100%;
+  height: fit-content;
+}

@@ -1,7 +1,9 @@
+import { v4 } from "uuid";
 import { FormEvent } from "react";
 import { IUser } from "../context/types";
 import { useRouter } from "next/navigation";
 import { useGlobalContext } from "../context/context";
+import InputPass from "../global/input-pass/input-pass";
 
 export default function Register() {
   const { findUser, registerUser } = useGlobalContext();
@@ -27,11 +29,15 @@ export default function Register() {
     const password_match = data["password"] === data["password_repeat"];
 
     const final_data: IUser = {
+      id: v4(),
       image: "",
       name: data["name"],
       email: data["email"],
       password: data["password"],
-      events: [],
+      events: {
+        my_events: [],
+        invited_to: [],
+      },
     };
 
     if (user_exist) {
@@ -52,33 +58,23 @@ export default function Register() {
           <input
             autoFocus
             required
-            placeholder="Email"
             name="email"
             type="email"
             className="input"
+            placeholder="Email"
           />
           <input
             required
-            placeholder="Name"
             name="name"
             type="text"
             className="input"
+            placeholder="Name"
           />
         </div>
         <div className="wrap">
-          <input
+          <InputPass required name="password" />
+          <InputPass
             required
-            minLength={8}
-            type="password"
-            name="password"
-            className="input"
-            placeholder="Password"
-          />
-          <input
-            required
-            minLength={8}
-            type="password"
-            className="input"
             name="password_repeat"
             placeholder="Repeat password"
           />
