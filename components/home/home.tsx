@@ -10,7 +10,7 @@ export default function Home() {
         </h1>
         <p>
           You can create event and invite guests, to do it press "Create event"
-          button in the menu
+          button in the left-side menu
         </p>
       </div>
     </div>
