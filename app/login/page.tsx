@@ -1,11 +1,12 @@
 "use client";
-import { useGlobalContext } from "@/components/context/context";
-import { IEvent, IUser } from "@/components/context/types";
-import LogIn from "@/components/login/login";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+
 import { v4 } from "uuid";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import LogIn from "@/components/login/login";
+import { IUser } from "@/components/context/types";
+import { useGlobalContext } from "@/components/context/context";
 
 export default function LoginPage() {
   const {

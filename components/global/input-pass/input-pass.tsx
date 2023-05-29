@@ -21,7 +21,7 @@ export default function InputPass(
       />
       <EyeIcon
         className={s.eye}
-        crossed={passwordType}
+        showed={passwordType}
         onClick={() => setPasswordType((prev) => !prev)}
       />
     </div>

@@ -1,7 +1,8 @@
 "use client";
+
+import Empty from "@/components/global/empty/empty";
 import AllEvents from "@/components/all-events/all-events";
 import { useGlobalContext } from "@/components/context/context";
-import Empty from "@/components/global/empty/empty";
 
 export default function AllEventsPage() {
   const {

@@ -95,8 +95,11 @@ export default function GlobalContextProvider({
     return dispatch({ type: Action.DELETE_EVENT, payload });
   };
 
-  const getEventById = (id: string) =>
-    state.all_events.find((e) => e.id === id);
+  const getEventById = (id: string) => {
+    console.log(state);
+
+    return state.all_events.find((e) => e.id === id);
+  };
 
   const saveDataToDB = () => {
     localStorage.setItem("state", JSON.stringify(state));

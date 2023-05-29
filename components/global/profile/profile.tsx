@@ -5,6 +5,7 @@ import { useGlobalContext } from "@/components/context/context";
 import { FormEvent } from "react";
 import Image from "next/image";
 import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function Profile() {
   const {
@@ -14,6 +15,7 @@ export default function Profile() {
     changeUserData,
     setCurrentUserEmail,
   } = useGlobalContext();
+  const router = useRouter();
 
   if (!current_user_email) return <></>;
   const current_user = findUser(current_user_email);
@@ -75,11 +77,14 @@ export default function Profile() {
 
     setCurrentUserEmail(null);
     signOut();
+    router.push("/login");
   };
 
   const logOut = () => {
     signOut();
     setCurrentUserEmail(null);
+
+    router.push("/login");
   };
 
   return (

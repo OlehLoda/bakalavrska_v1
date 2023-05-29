@@ -8,6 +8,5 @@ export default function ProfilePage() {
     state: { current_user_email },
   } = useGlobalContext();
 
-  // return <Profile />;
   return current_user_email ? <Profile /> : <Empty />;
 }

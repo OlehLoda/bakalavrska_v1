@@ -1,8 +1,8 @@
 "use client";
+
+import Empty from "@/components/global/empty/empty";
 import { useGlobalContext } from "@/components/context/context";
 import CreateEvent from "@/components/create-event/create-event";
-import Empty from "@/components/global/empty/empty";
-import Profile from "@/components/global/profile/profile";
 
 export default function CreateEventPage() {
   const {
