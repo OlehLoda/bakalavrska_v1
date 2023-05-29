@@ -10,6 +10,7 @@ import AddGuestModal from "./add-guest-modal/add-guest-modal";
 import { useGlobalContext } from "@/components/context/context";
 import EditEventModal from "./edit-event-modal/edit-event-modal";
 import DeleteEventModal from "./delete-event-modal/delete-event-modal";
+import { useRouter } from "next/router";
 
 enum Modal {
   addGuests,
@@ -25,15 +26,16 @@ export default function Event() {
   } = useGlobalContext();
   const params = useParams();
   const [loading, setLoading] = useState<boolean>(true);
-  const [event, setEvent] = useState<IEvent | null>(null);
+  const [event, setEvent] = useState<IEvent | undefined>(undefined);
   const event_id = (params?.["event_id"] as string) || null;
+
   const [modal, setModal] = useState<Modal | null>(null);
 
   useEffect(() => {
-    if (loading) {
+    if (loading && event_id) {
       setLoading(false);
     } else {
-      event_id && setEvent(getEventById(event_id) || null);
+      event_id && setEvent(getEventById(event_id));
     }
   }, [loading, event_id]);
 
