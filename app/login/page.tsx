@@ -6,10 +6,11 @@ import LogIn from "@/components/login/login";
 import { IUser } from "@/components/context/types";
 import { signOut, useSession } from "next-auth/react";
 import { useGlobalContext } from "@/components/context/context";
+import Loader from "@/components/global/loader/loader";
 
 export default function LoginPage() {
   const {
-    state: { current_user_email },
+    state: { loading, current_user_email },
     findUser,
     setLoading,
     registerUser,
@@ -48,16 +49,18 @@ export default function LoginPage() {
     signOut();
   };
 
-  if (current_user_email) {
-    return (
-      <div className="bg">
-        <div className="form">
-          <h2>Signed in as {findUser(current_user_email)?.name}</h2>
-          <button onClick={logOut}>Sign out</button>
+  return (
+    <Loader loading={loading}>
+      {!current_user_email ? (
+        <LogIn />
+      ) : (
+        <div className="bg">
+          <div className="form">
+            <h2>Signed in as {findUser(current_user_email)?.name}</h2>
+            <button onClick={logOut}>Sign out</button>
+          </div>
         </div>
-      </div>
-    );
-  }
-
-  return <LogIn />;
+      )}
+    </Loader>
+  );
 }
