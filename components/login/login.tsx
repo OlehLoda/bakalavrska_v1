@@ -1,10 +1,10 @@
-import GoogleIcon from "../../public/icons/google";
-import s from "./login.module.css";
-import { FormEvent, useState } from "react";
-import { useGlobalContext } from "../context/context";
-import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import s from "./login.module.css";
+import { signIn } from "next-auth/react";
+import { FormEvent, useState } from "react";
 import ArrowIcon from "@/public/icons/arrow";
+import GoogleIcon from "../../public/icons/google";
+import { useGlobalContext } from "../context/context";
 import InputPass from "../global/input-pass/input-pass";
 
 interface IChangePasswordStep {
@@ -17,23 +17,20 @@ export default function LogIn() {
 
   const [resetPass, setResetPass] = useState<IChangePasswordStep | null>(null);
 
-  const handleResetPass = () => {
+  const toggleResetPass = () => {
     resetPass ? setResetPass(null) : setResetPass({ step: 1 });
   };
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const elements = Array.from(e.currentTarget.elements);
+    const elements = Array.from(e.currentTarget.elements) as HTMLInputElement[];
 
     const data: Record<string, string | number> = {};
 
     elements
       .filter((e) => (e as HTMLInputElement).name.length > 0)
-      .forEach((el) => {
-        const { name, value } = el as HTMLInputElement;
-        data[name] = value;
-      });
+      .forEach(({ name, value }) => (data[name] = value));
 
     const user_exist = findUser((data["email"] || resetPass?.email) as string);
 
@@ -87,12 +84,12 @@ export default function LogIn() {
           <div className="wrap">
             <button type="submit">Увійти</button>
             <button type="button" onClick={() => signIn()} className={s.google}>
-              Sign in with Google <GoogleIcon />
+              Sign in with <GoogleIcon />
             </button>
           </div>
           <div className={s.registerForgot}>
             <Link href="/register">Don't have an account?</Link>
-            <p onClick={handleResetPass}>Forget password?</p>
+            <p onClick={toggleResetPass}>Forget password?</p>
           </div>
         </form>
       )}

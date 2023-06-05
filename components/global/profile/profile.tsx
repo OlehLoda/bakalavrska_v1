@@ -1,27 +1,31 @@
-import AvatarIcon from "@/public/icons/avatar";
-import s from "./profile.module.css";
-import DropDown from "../drop-down/drop-down";
-import { useGlobalContext } from "@/components/context/context";
-import { FormEvent } from "react";
 import Image from "next/image";
+import s from "./profile.module.css";
 import { signOut } from "next-auth/react";
+import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import DropDown from "../drop-down/drop-down";
+import AvatarIcon from "@/public/icons/avatar";
+import { useGlobalContext } from "@/components/context/context";
 
 export default function Profile() {
   const {
     state: { current_user_email },
     findUser,
     deleteUser,
+    setLoading,
     changeUserData,
     setCurrentUserEmail,
   } = useGlobalContext();
-  const router = useRouter();
+  const [active, setActive] = useState<number | null>(null);
 
   if (!current_user_email) return <></>;
   const current_user = findUser(current_user_email);
   if (!current_user) return <></>;
 
   const { email, password, name, image } = current_user;
+
+  const toggleActive = (index: number) =>
+    active === index ? setActive(null) : setActive(index);
 
   const changeProfileInfo = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -72,20 +76,84 @@ export default function Profile() {
     return e.currentTarget.reset();
   };
 
+  const logOut = () => {
+    setLoading(true);
+    setCurrentUserEmail(null);
+    signOut();
+  };
+
   const deleteAccount = () => {
     deleteUser(email);
-
-    setCurrentUserEmail(null);
-    signOut();
-    router.push("/login");
+    logOut();
   };
 
-  const logOut = () => {
-    signOut();
-    setCurrentUserEmail(null);
-
-    router.push("/login");
-  };
+  const functionals = [
+    {
+      name: "Edit profile",
+      description: "Here you can change your profile info",
+      onSubmit: changeProfileInfo,
+      body: (
+        <>
+          <input
+            required
+            type="text"
+            name="name"
+            className="input"
+            placeholder="New name"
+          />
+          <button type="submit" className="submit">
+            Submit
+          </button>
+        </>
+      ),
+    },
+    {
+      name: "Change email",
+      description: "Here you can change your email",
+      onSubmit: changeEmail,
+      body: (
+        <>
+          <input
+            type="email"
+            name="email"
+            className="input"
+            placeholder="New email"
+          />
+          <button type="submit" className="submit">
+            Submit
+          </button>
+        </>
+      ),
+    },
+    {
+      name: "Change password",
+      description: "Here you can change your password",
+      onSubmit: changePassword,
+      body: (
+        <>
+          <input
+            required
+            minLength={8}
+            type="text"
+            className="input"
+            name="old_password"
+            placeholder="Old password"
+          />
+          <input
+            required
+            type="text"
+            minLength={8}
+            name="password"
+            className="input"
+            placeholder="New password"
+          />
+          <button type="submit" className="submit">
+            Submit
+          </button>
+        </>
+      ),
+    },
+  ];
 
   return (
     <div className={s.bg}>
@@ -94,10 +162,10 @@ export default function Profile() {
         <div className={s.generalInfo}>
           {image ? (
             <Image
-              src={image}
-              alt="user avatar"
               width={64}
               height={64}
+              src={image}
+              alt="user avatar"
               className={s.avatar}
             />
           ) : (
@@ -106,61 +174,19 @@ export default function Profile() {
           <p className={s.name}>{name}</p>
           <p className={s.email}>{email}</p>
         </div>
-        <DropDown parent={<button className={s.opener}>Edit profile</button>}>
-          <form className={s.form} onSubmit={changeProfileInfo}>
-            <h3>Here you can change your profile info</h3>
-            <input
-              required
-              type="text"
-              className="input"
-              placeholder="New name"
-              name="name"
-            />
-            <button type="submit" className="submit">
-              Submit
-            </button>
-          </form>
-        </DropDown>
-        <DropDown parent={<button className={s.opener}>Change email</button>}>
-          <form className={s.form} onSubmit={changeEmail}>
-            <h3>Here you can change your email</h3>
-            <input
-              type="email"
-              className="input"
-              placeholder="New email"
-              name="email"
-            />
-            <button type="submit" className="submit">
-              Submit
-            </button>
-          </form>
-        </DropDown>
-        <DropDown
-          parent={<button className={s.opener}>Change password</button>}
-        >
-          <form className={s.form} onSubmit={changePassword}>
-            <h3>Here you can change your password</h3>
-            <input
-              required
-              minLength={8}
-              type="text"
-              className="input"
-              name="old_password"
-              placeholder="Old password"
-            />
-            <input
-              required
-              minLength={8}
-              type="text"
-              className="input"
-              name="password"
-              placeholder="New password"
-            />
-            <button type="submit" className="submit">
-              Submit
-            </button>
-          </form>
-        </DropDown>
+        {functionals.map(({ name, description, onSubmit, body }, index) => (
+          <DropDown
+            key={index}
+            active={index === active}
+            setActive={() => toggleActive(index)}
+            parent={<button className={s.opener}>{name}</button>}
+          >
+            <form className={s.form} onSubmit={onSubmit}>
+              <h3>{description}</h3>
+              {body}
+            </form>
+          </DropDown>
+        ))}
         <div className={s.buttonsWrap}>
           <button onClick={deleteAccount}>Delete account</button>
           <button onClick={logOut}>Log out</button>

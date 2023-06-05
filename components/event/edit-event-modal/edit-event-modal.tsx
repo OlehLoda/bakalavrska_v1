@@ -78,7 +78,14 @@ export default function EditEventModal({ onClose, event, setLoading }: Props) {
           placeholder="Event address"
           rows={5}
         />
-        <button type="submit">Submit</button>
+        <div>
+          <button type="reset" className="reset">
+            Cancel
+          </button>
+          <button autoFocus type="submit" className="submit">
+            Submit
+          </button>
+        </div>
       </form>
     </ModalWrapper>
   );

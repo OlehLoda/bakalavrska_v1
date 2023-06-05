@@ -5,7 +5,7 @@ import { useGlobalContext } from "../context/context";
 import { Category, IAllEvents } from "../context/types";
 
 export default function AllEvents() {
-  const { state, findUserData } = useGlobalContext();
+  const { findUserData } = useGlobalContext();
   const [category, setCategory] = useState<Category>(Category.MY_EVENTS);
 
   const events: IAllEvents = findUserData("events");

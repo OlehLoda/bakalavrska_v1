@@ -5,6 +5,7 @@ export interface IInitialState {
   registered_users: IUser[] | null;
   current_user_email: string | null;
   all_events: IEvent[];
+  loading: boolean;
 }
 
 export type IAllEvents = {
@@ -34,8 +35,9 @@ export interface IContext {
   dispatch: Dispatch<Actions>;
   findUser: (payload: string) => IUser | undefined;
   editEvent: (payload: Partial<IEvent>) => void;
-  deleteEvent: (payload: string) => void;
   deleteUser: (payload: string) => void;
+  setLoading: (payload: boolean) => void;
+  deleteEvent: (payload: string) => void;
   createEvent: (payload: IEvent) => void;
   registerUser: (payload: IUser) => void;
   findUserData: (payload: string) => any | undefined;
@@ -55,11 +57,6 @@ export enum ModalType {
 export interface IModal {
   type: ModalType;
   data?: any;
-}
-
-export interface IChangePasswordDTO {
-  user: IUser;
-  password: string;
 }
 
 export interface ChangeUserData {

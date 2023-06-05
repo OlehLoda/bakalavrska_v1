@@ -8,7 +8,11 @@ interface Props {
 
 export default function ModalWrapper({ children, onClose }: Props) {
   return (
-    <div className={s.bg} onClick={onClose}>
+    <div
+      className={s.bg}
+      onClick={onClose}
+      onKeyDown={({ key }) => key === "Escape" && onClose()}
+    >
       <div className={s.body} onClick={(e) => e.stopPropagation()}>
         {children}
       </div>

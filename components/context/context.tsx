@@ -7,6 +7,7 @@ export const InitialState: IInitialState = {
   registered_users: [],
   current_user_email: null,
   all_events: [],
+  loading: true,
 };
 
 export const context: IContext = {
@@ -15,6 +16,7 @@ export const context: IContext = {
   findUser: () => undefined,
   editEvent: () => null,
   deleteUser: () => null,
+  setLoading: () => null,
   createEvent: () => null,
   deleteEvent: () => null,
   registerUser: () => null,

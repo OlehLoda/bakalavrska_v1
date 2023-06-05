@@ -2,53 +2,62 @@
 
 import { v4 } from "uuid";
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
 import LogIn from "@/components/login/login";
 import { IUser } from "@/components/context/types";
+import { signOut, useSession } from "next-auth/react";
 import { useGlobalContext } from "@/components/context/context";
 
 export default function LoginPage() {
   const {
-    state: { current_user_email, all_events },
+    state: { current_user_email },
     findUser,
+    setLoading,
     registerUser,
     setCurrentUserEmail,
   } = useGlobalContext();
 
-  const router = useRouter();
   const { data: session } = useSession();
 
   useEffect(() => {
-    if (current_user_email) {
-      return router.push("/");
-    } else if (session) {
-      const { name, email, image } = session.user || {};
+    if (!session) return;
+    const { name, email, image } = session.user || {};
 
-      const user_exist = findUser(email as string);
+    const user_exist = findUser(email as string);
 
-      if (user_exist) {
-        setCurrentUserEmail(user_exist.email);
-        return router.push("/");
-      } else {
-        const new_user: IUser = {
-          id: v4(),
-          email: email || "",
-          password: "11111111",
-          name: name || "",
-          image: image || "",
-          events: {
-            my_events: [],
-            invited_to: [],
-          },
-        };
+    if (user_exist) return setCurrentUserEmail(user_exist.email);
 
-        registerUser(new_user);
-        setCurrentUserEmail(new_user.email);
-        return router.push("/");
-      }
-    } else return;
-  }, [current_user_email, session]);
+    const new_user: IUser = {
+      id: v4(),
+      email: email || "",
+      password: "11111111",
+      name: name || "",
+      image: image || "",
+      events: {
+        my_events: [],
+        invited_to: [],
+      },
+    };
+
+    registerUser(new_user);
+    setCurrentUserEmail(new_user.email);
+  }, [session]);
+
+  const logOut = () => {
+    setLoading(true);
+    setCurrentUserEmail(null);
+    signOut();
+  };
+
+  if (current_user_email) {
+    return (
+      <div className="bg">
+        <div className="form">
+          <h2>Signed in as {findUser(current_user_email)?.name}</h2>
+          <button onClick={logOut}>Sign out</button>
+        </div>
+      </div>
+    );
+  }
 
   return <LogIn />;
 }

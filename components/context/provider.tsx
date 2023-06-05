@@ -1,9 +1,5 @@
 "use client";
 
-import { Action, GlobalReducer } from "./reducer";
-import { GlobalContext, InitialState } from "./context";
-import { usePathname, useRouter } from "next/navigation";
-import { ReactNode, useReducer, useEffect, useState } from "react";
 import {
   IUser,
   IEvent,
@@ -11,6 +7,10 @@ import {
   IInitialState,
   ChangeUserData,
 } from "./types";
+import { Action, GlobalReducer } from "./reducer";
+import { GlobalContext, InitialState } from "./context";
+import { usePathname, useRouter } from "next/navigation";
+import { ReactNode, useReducer, useEffect } from "react";
 
 export default function GlobalContextProvider({
   children,
@@ -21,36 +21,36 @@ export default function GlobalContextProvider({
   const router = useRouter();
   const pathname = usePathname();
 
-  const [loading, setLoading] = useState<boolean>(true);
+  useEffect(() => {
+    saveDataToDB();
+    if (state.loading) return setLoading(false);
+    if (
+      state.current_user_email === null &&
+      pathname !== "/login" &&
+      pathname !== "/register"
+    )
+      return router.push("/login");
+  }, [pathname, state, state.loading]);
 
   useEffect(() => {
-    if (loading) {
-      setLoading(false);
-    } else {
-      if (state.current_user_email == null && pathname !== "/register") {
-        router.push("/login");
-      }
-    }
-  }, [pathname]);
+    const current_user = findUser(state.current_user_email || "");
+    if (!current_user) return;
 
-  useEffect(() => {
-    if (typeof state.current_user_email !== null) {
-      const my_events = state.all_events.filter(
-        (e) => e.owner_id === findUser(state.current_user_email!)?.id
-      );
+    const is_owner = ({ owner_id }: IEvent) =>
+      owner_id === current_user?.id ? true : false;
 
-      const invited_to = state.all_events.filter((e) =>
-        e.guests.includes(state.current_user_email!)
-      );
+    const my_events = state.all_events.filter(is_owner);
 
-      const events: IAllEvents = {
-        my_events,
-        invited_to,
-      };
+    const invited_to = state.all_events.filter(
+      (e) => e.guests.includes(current_user.email) && !is_owner(e)
+    );
 
-      changeUserData({ data: { events } });
-    }
+    const events: IAllEvents = { my_events, invited_to };
+
+    changeUserData({ data: { events } });
   }, [state.current_user_email, state.all_events]);
+
+  useEffect(() => getDataFromDB(), []);
 
   const setData = (payload: IInitialState) => {
     return dispatch({ type: Action.SET_DATA, payload });
@@ -95,14 +95,16 @@ export default function GlobalContextProvider({
     return dispatch({ type: Action.DELETE_EVENT, payload });
   };
 
-  const getEventById = (id: string) => {
-    console.log(state);
+  const setLoading = (payload: boolean) => {
+    return dispatch({ type: Action.SET_LOADING, payload });
+  };
 
+  const getEventById = (id: string) => {
     return state.all_events.find((e) => e.id === id);
   };
 
   const saveDataToDB = () => {
-    localStorage.setItem("state", JSON.stringify(state));
+    return localStorage.setItem("state", JSON.stringify(state));
   };
 
   const getDataFromDB = () => {
@@ -110,23 +112,19 @@ export default function GlobalContextProvider({
       ? JSON.parse(localStorage.getItem("state")!)
       : null;
 
-    data && setData(data);
+    return data && setData(data);
   };
 
   const findUser = (email: string) => {
-    if (!state.registered_users) {
-      return undefined;
-    } else return state.registered_users.find((user) => user.email === email);
+    if (!state.registered_users) return;
+    return state.registered_users.find((user) => user.email === email);
   };
 
-  const findUserData = (field: string) =>
-    state?.registered_users?.find(
+  const findUserData = (field: string) => {
+    return state?.registered_users?.find(
       (user) => user.email === state.current_user_email
     )?.[field];
-
-  useEffect(() => getDataFromDB(), []);
-
-  useEffect(() => saveDataToDB(), [state]);
+  };
 
   return (
     <GlobalContext.Provider
@@ -136,6 +134,7 @@ export default function GlobalContextProvider({
         findUser,
         editEvent,
         deleteUser,
+        setLoading,
         createEvent,
         deleteEvent,
         registerUser,

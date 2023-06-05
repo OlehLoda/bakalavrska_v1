@@ -1,14 +1,17 @@
+import { v4 } from "uuid";
 import { FormEvent } from "react";
 import s from "./create-event.module.css";
-import { v4 } from "uuid";
 import { IEvent } from "../context/types";
+import { useRouter } from "next/navigation";
 import { useGlobalContext } from "../context/context";
 
 export default function CreateEvent() {
+  const router = useRouter();
   const {
     state: { current_user_email },
-    findUserData,
+    setLoading,
     createEvent,
+    findUserData,
   } = useGlobalContext();
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -24,18 +27,18 @@ export default function CreateEvent() {
       guests: [current_user_email!],
     };
 
-    Array.from(e.currentTarget.elements)
-      .filter((el) => (el as HTMLInputElement).name.length > 0)
-      .forEach((element) => {
-        const el = element as HTMLInputElement;
-        new_event_info[el.name] = el.value;
-      });
+    (Array.from(e.currentTarget.elements) as HTMLInputElement[])
+      .filter((el) => el.name.length > 0)
+      .forEach(({ name, value }) => (new_event_info[name] = value));
 
     createEvent(new_event_info);
 
-    alert("Event successfully created");
-
-    return e.currentTarget.reset();
+    if (
+      confirm("Event successfully created\n\nRedirect to event page?") === true
+    ) {
+      setLoading(true);
+      return router.push(`/event/${new_event_info.id}`);
+    } else return e.currentTarget.reset();
   };
 
   return (

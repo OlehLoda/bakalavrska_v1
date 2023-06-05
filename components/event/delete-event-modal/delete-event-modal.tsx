@@ -20,29 +20,31 @@ export default function DeleteGuestModal({
   const router = useRouter();
 
   const deleteEventFunc = () => {
-    deleteEvent(event_id);
     onClose();
     setLoading(true);
-
+    deleteEvent(event_id);
     alert("Event was successfully deleted");
-
     return router.push("/all-events");
   };
 
   return (
     <ModalWrapper onClose={onClose}>
-      <div className={s.deleteEventModal}>
+      <form
+        onReset={onClose}
+        onSubmit={deleteEventFunc}
+        className={s.deleteEventModal}
+      >
         <PlusIcon className={s.cross} onClick={onClose} />
         <h2>Are you sure you want to delete this event?</h2>
         <div>
-          <button className="submit" onClick={onClose}>
+          <button type="reset" className="submit">
             Cancel
           </button>
-          <button className="reset" onClick={deleteEventFunc}>
+          <button autoFocus type="submit" className="reset">
             Delete
           </button>
         </div>
-      </div>
+      </form>
     </ModalWrapper>
   );
 }
