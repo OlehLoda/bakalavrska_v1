@@ -9,7 +9,7 @@ import {
 } from "./types";
 import { Action, GlobalReducer } from "./reducer";
 import { GlobalContext, InitialState } from "./context";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { ReactNode, useReducer, useEffect } from "react";
 
 export default function GlobalContextProvider({
@@ -20,17 +20,26 @@ export default function GlobalContextProvider({
   const [state, dispatch] = useReducer(GlobalReducer, InitialState);
   const router = useRouter();
   const pathname = usePathname();
+  const query = useParams();
 
   useEffect(() => {
-    saveDataToDB();
-    if (state.loading) return setLoading(false);
     if (
       state.current_user_email === null &&
       pathname !== "/login" &&
-      pathname !== "/register"
-    )
-      return router.push("/login");
-  }, [pathname, state, state.loading]);
+      pathname !== "/register" &&
+      !query?.["event_id"]
+    ) {
+      console.log(pathname);
+
+      router.push("/login");
+    }
+  }, [state.current_user_email]);
+
+  useEffect(() => {
+    if (state.registered_users && state.registered_users?.length > 0) {
+      saveDataToDB();
+    }
+  }, [state]);
 
   useEffect(() => {
     const current_user = findUser(state.current_user_email || "");
@@ -84,11 +93,8 @@ export default function GlobalContextProvider({
     return dispatch({ type: Action.ADD_GUEST_TO_EVENT, payload });
   };
 
-  const deleteGuestFromEvent = (payload: {
-    event_id: string;
-    guest: string;
-  }) => {
-    return dispatch({ type: Action.DELETE_GUEST_FROM_EVENT, payload });
+  const deleteGuest = (payload: { event_id: string; guest: string }) => {
+    return dispatch({ type: Action.DELETE_GUEST, payload });
   };
 
   const deleteEvent = (payload: string) => {
@@ -104,6 +110,8 @@ export default function GlobalContextProvider({
   };
 
   const saveDataToDB = () => {
+    console.log(JSON.stringify(state));
+
     return localStorage.setItem("state", JSON.stringify(state));
   };
 
@@ -143,7 +151,7 @@ export default function GlobalContextProvider({
         changeUserData,
         addGuestToEvent,
         setCurrentUserEmail,
-        deleteGuestFromEvent,
+        deleteGuest,
       }}
     >
       {children}

@@ -10,7 +10,6 @@ import AddGuestModal from "./add-guest-modal/add-guest-modal";
 import { useGlobalContext } from "@/components/context/context";
 import EditEventModal from "./edit-event-modal/edit-event-modal";
 import DeleteEventModal from "./delete-event-modal/delete-event-modal";
-import { useRouter } from "next/router";
 
 enum Modal {
   addGuests,
@@ -76,7 +75,7 @@ export default function Event() {
           <p className={s.description}>{description}</p>
         </label>
         <Guests
-          event_id={id}
+          event={event}
           guests={guests}
           is_owner={is_owner}
           setLoading={setLoading}

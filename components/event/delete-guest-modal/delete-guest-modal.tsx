@@ -17,10 +17,10 @@ export default function DeleteGuestModal({
   guest,
   setLoading,
 }: Props) {
-  const { deleteGuestFromEvent } = useGlobalContext();
+  const { deleteGuest } = useGlobalContext();
 
-  const deleteGuest = () => {
-    deleteGuestFromEvent({ event_id, guest });
+  const submit = () => {
+    deleteGuest({ event_id, guest });
     onClose();
     setLoading(true);
 
@@ -36,7 +36,7 @@ export default function DeleteGuestModal({
           <button className="submit" onClick={onClose}>
             Cancel
           </button>
-          <button className="reset" onClick={deleteGuest}>
+          <button className="reset" onClick={submit}>
             Delete
           </button>
         </div>

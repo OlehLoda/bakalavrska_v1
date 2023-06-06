@@ -25,7 +25,7 @@ export const context: IContext = {
   changeUserData: () => null,
   addGuestToEvent: () => null,
   setCurrentUserEmail: () => null,
-  deleteGuestFromEvent: () => null,
+  deleteGuest: () => null,
 };
 
 export const GlobalContext = createContext(context);

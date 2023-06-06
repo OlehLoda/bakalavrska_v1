@@ -4,10 +4,11 @@ import UserGuest from "./user-guest";
 import { useGlobalContext } from "@/components/context/context";
 import DeleteGuestIcon from "@/public/icons/delete-guest";
 import DeleteGuestModal from "../delete-guest-modal/delete-guest-modal";
+import { IEvent } from "@/components/context/types";
 
 interface Props {
   guests: string[];
-  event_id: string;
+  event: IEvent;
   is_owner: boolean;
   toggleAddGuests: () => void;
   setLoading: Dispatch<SetStateAction<boolean>>;
@@ -15,12 +16,15 @@ interface Props {
 
 export default function Guests({
   guests,
-  event_id,
+  event,
   is_owner,
   setLoading,
   toggleAddGuests,
 }: Props) {
-  const { findUser } = useGlobalContext();
+  const {
+    state: { current_user_email },
+    findUser,
+  } = useGlobalContext();
 
   const [deleteThisGuest, setDeleteThisGuest] = useState<string | null>(null);
 
@@ -30,11 +34,12 @@ export default function Guests({
       {guests.length > 0 &&
         guests.map((guest, index) => {
           const user = findUser(guest);
+          const isOwner = event.owner_id === findUser(guest)?.id;
           return user ? (
             <UserGuest
               user={user}
-              is_owner={is_owner}
               key={index}
+              is_owner={isOwner}
               onDelete={() => setDeleteThisGuest(guest)}
             />
           ) : (
@@ -56,7 +61,7 @@ export default function Guests({
       )}
       {deleteThisGuest && (
         <DeleteGuestModal
-          event_id={event_id}
+          event_id={event.id}
           guest={deleteThisGuest}
           onClose={() => setDeleteThisGuest(null)}
           setLoading={setLoading}

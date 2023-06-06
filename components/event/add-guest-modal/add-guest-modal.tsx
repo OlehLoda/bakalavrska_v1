@@ -27,9 +27,9 @@ export default function AddGuestModal({
 
     alert("Guest successfully added");
 
-    onClose();
-
     e.currentTarget.reset();
+
+    onClose();
 
     return setLoading(true);
   };

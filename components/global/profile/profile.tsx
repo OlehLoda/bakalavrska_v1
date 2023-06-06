@@ -2,7 +2,6 @@ import Image from "next/image";
 import s from "./profile.module.css";
 import { signOut } from "next-auth/react";
 import { FormEvent, useState } from "react";
-import { useRouter } from "next/navigation";
 import DropDown from "../drop-down/drop-down";
 import AvatarIcon from "@/public/icons/avatar";
 import { useGlobalContext } from "@/components/context/context";
@@ -12,20 +11,28 @@ export default function Profile() {
     state: { current_user_email },
     findUser,
     deleteUser,
-    setLoading,
     changeUserData,
     setCurrentUserEmail,
   } = useGlobalContext();
-  const [active, setActive] = useState<number | null>(null);
+
+  const [active, setActive] = useState<number | null>(null),
+    toggleActive = (index: number) =>
+      active === index ? setActive(null) : setActive(index);
 
   if (!current_user_email) return <></>;
   const current_user = findUser(current_user_email);
   if (!current_user) return <></>;
-
   const { email, password, name, image } = current_user;
 
-  const toggleActive = (index: number) =>
-    active === index ? setActive(null) : setActive(index);
+  const deleteAccount = () => {
+    deleteUser(email);
+    logOut();
+  };
+
+  const logOut = () => {
+    setCurrentUserEmail(null);
+    signOut();
+  };
 
   const changeProfileInfo = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -74,17 +81,6 @@ export default function Profile() {
     alert("Password has been changed");
 
     return e.currentTarget.reset();
-  };
-
-  const logOut = () => {
-    setLoading(true);
-    setCurrentUserEmail(null);
-    signOut();
-  };
-
-  const deleteAccount = () => {
-    deleteUser(email);
-    logOut();
   };
 
   const functionals = [

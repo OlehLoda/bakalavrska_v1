@@ -5,14 +5,14 @@ import { useEffect } from "react";
 import LogIn from "@/components/login/login";
 import { IUser } from "@/components/context/types";
 import { signOut, useSession } from "next-auth/react";
-import { useGlobalContext } from "@/components/context/context";
 import Loader from "@/components/global/loader/loader";
+import { useGlobalContext } from "@/components/context/context";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const {
-    state: { loading, current_user_email },
+    state: { current_user_email },
     findUser,
-    setLoading,
     registerUser,
     setCurrentUserEmail,
   } = useGlobalContext();
@@ -44,23 +44,18 @@ export default function LoginPage() {
   }, [session]);
 
   const logOut = () => {
-    setLoading(true);
     setCurrentUserEmail(null);
     signOut();
   };
 
-  return (
-    <Loader loading={loading}>
-      {!current_user_email ? (
-        <LogIn />
-      ) : (
-        <div className="bg">
-          <div className="form">
-            <h2>Signed in as {findUser(current_user_email)?.name}</h2>
-            <button onClick={logOut}>Sign out</button>
-          </div>
-        </div>
-      )}
-    </Loader>
+  return !current_user_email ? (
+    <LogIn />
+  ) : (
+    <div className="bg">
+      <div className="form">
+        <h2>Signed in as {findUser(current_user_email)?.name}</h2>
+        <button onClick={logOut}>Sign out</button>
+      </div>
+    </div>
   );
 }

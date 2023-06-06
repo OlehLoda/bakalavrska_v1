@@ -18,11 +18,11 @@ export enum Action {
   DELETE_USER = "DELETE_USER",
   CREATE_EVENT = "CREATE_EVENT",
   DELETE_EVENT = "DELETE_EVENT",
+  DELETE_GUEST = "DELETE_GUEST",
   REGISTER_USER = "REGISTER_USER",
   CHANGE_USER_DATA = "CHANGE_USER_DATA",
   ADD_GUEST_TO_EVENT = "ADD_GUEST_TO_EVENT",
   SET_CURRENT_USER_EMAIL = "SET_CURRENT_USER_EMAIL",
-  DELETE_GUEST_FROM_EVENT = "DELETE_GUEST_FROM_EVENT",
 }
 
 export interface Payload {
@@ -32,11 +32,11 @@ export interface Payload {
   [Action.SET_LOADING]: boolean;
   [Action.CREATE_EVENT]: IEvent;
   [Action.DELETE_EVENT]: string;
+  [Action.DELETE_GUEST]: { event_id: string; guest: string };
   [Action.REGISTER_USER]: IUser;
   [Action.CHANGE_USER_DATA]: ChangeUserData;
   [Action.ADD_GUEST_TO_EVENT]: { event_id: string; guest: string };
   [Action.SET_CURRENT_USER_EMAIL]: string | null;
-  [Action.DELETE_GUEST_FROM_EVENT]: { event_id: string; guest: string };
 }
 
 export type Actions = ActionMap<Payload>[keyof ActionMap<Payload>];
@@ -105,7 +105,7 @@ export const GlobalReducer = (
         }),
       };
 
-    case Action.DELETE_GUEST_FROM_EVENT:
+    case Action.DELETE_GUEST:
       return {
         ...state,
         all_events: state.all_events.map((event) => {

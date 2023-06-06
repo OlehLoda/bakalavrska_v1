@@ -45,7 +45,7 @@ export interface IContext {
   changeUserData: (payload: ChangeUserData) => void;
   addGuestToEvent: (payload: { event_id: string; guest: string }) => void;
   setCurrentUserEmail: (payload: string | null) => void;
-  deleteGuestFromEvent: (payload: { event_id: string; guest: string }) => void;
+  deleteGuest: (payload: { event_id: string; guest: string }) => void;
 }
 
 export enum ModalType {
