@@ -8,10 +8,16 @@ import { useGlobalContext } from "@/components/context/context";
 interface Props {
   user: IUser;
   is_owner: boolean;
+  isOwner: boolean;
   onDelete: () => void;
 }
 
-export default function UserGuest({ user, is_owner, onDelete }: Props) {
+export default function UserGuest({
+  user,
+  is_owner,
+  isOwner,
+  onDelete,
+}: Props) {
   const {
     state: { current_user_email },
   } = useGlobalContext();
@@ -33,7 +39,7 @@ export default function UserGuest({ user, is_owner, onDelete }: Props) {
         <AvatarIcon className={s.avatar} />
       )}
       <p className={s.name}>
-        {name} {is_owner && <span>(Event owner)</span>}
+        {name} {isOwner && <span>(Event owner)</span>}
       </p>
       <p className={s.email}>{email}</p>
       {is_owner && !is_me && (

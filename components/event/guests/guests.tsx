@@ -21,10 +21,7 @@ export default function Guests({
   setLoading,
   toggleAddGuests,
 }: Props) {
-  const {
-    state: { current_user_email },
-    findUser,
-  } = useGlobalContext();
+  const { findUser } = useGlobalContext();
 
   const [deleteThisGuest, setDeleteThisGuest] = useState<string | null>(null);
 
@@ -37,9 +34,10 @@ export default function Guests({
           const isOwner = event.owner_id === findUser(guest)?.id;
           return user ? (
             <UserGuest
-              user={user}
               key={index}
-              is_owner={isOwner}
+              user={user}
+              is_owner={is_owner}
+              isOwner={isOwner}
               onDelete={() => setDeleteThisGuest(guest)}
             />
           ) : (
