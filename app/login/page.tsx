@@ -5,9 +5,7 @@ import { useEffect } from "react";
 import LogIn from "@/components/login/login";
 import { IUser } from "@/components/context/types";
 import { signOut, useSession } from "next-auth/react";
-import Loader from "@/components/global/loader/loader";
 import { useGlobalContext } from "@/components/context/context";
-import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const {

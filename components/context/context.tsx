@@ -17,6 +17,7 @@ export const context: IContext = {
   editEvent: () => null,
   deleteUser: () => null,
   setLoading: () => null,
+  deleteGuest: () => null,
   createEvent: () => null,
   deleteEvent: () => null,
   registerUser: () => null,
@@ -25,7 +26,6 @@ export const context: IContext = {
   changeUserData: () => null,
   addGuestToEvent: () => null,
   setCurrentUserEmail: () => null,
-  deleteGuest: () => null,
 };
 
 export const GlobalContext = createContext(context);
