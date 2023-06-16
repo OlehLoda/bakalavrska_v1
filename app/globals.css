@@ -46,6 +46,7 @@ body {
   --white: #fcfcfc;
   --black: #121212;
   --silver: rgb(198, 197, 185);
+  --silver-hover: rgb(185, 185, 182);
   --blue: rgb(98, 146, 158);
   --red: rgb(255, 67, 63);
   --green: rgb(121, 206, 61);
@@ -158,4 +159,32 @@ button[type="reset"],
 button[type="submit"],
 .submit {
   background: var(--green);
+}
+
+@media screen and (max-width: 1024px) {
+  body {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  .wrap {
+    grid-template-columns: 1fr;
+  }
+
+  .wrapApp {
+    width: 100vw;
+    width: 100dvw;
+
+    padding: 16px;
+    align-content: start;
+  }
+
+  .bg {
+    height: calc(100vh - 100px - 32px);
+    height: calc(100dvh - 100px - 32px);
+
+    padding: 16px;
+
+    overflow-x: hidden;
+  }
 }

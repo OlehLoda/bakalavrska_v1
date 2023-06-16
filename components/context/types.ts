@@ -5,7 +5,6 @@ export interface IInitialState {
   registered_users: IUser[] | null;
   current_user_email: string | null;
   all_events: IEvent[];
-  loading: boolean;
 }
 
 export type IAllEvents = {
@@ -36,32 +35,15 @@ export interface IContext {
   findUser: (payload: string) => IUser | undefined;
   editEvent: (payload: Partial<IEvent>) => void;
   deleteUser: (payload: string) => void;
-  setLoading: (payload: boolean) => void;
+  deleteGuest: (payload: { event_id: string; guest: string }) => void;
   deleteEvent: (payload: string) => void;
   createEvent: (payload: IEvent) => void;
   registerUser: (payload: IUser) => void;
   findUserData: (payload: string) => any | undefined;
   getEventById: (payload: string) => IEvent | undefined;
-  changeUserData: (payload: ChangeUserData) => void;
+  editUserData: (payload: { data: Partial<IUser>; email?: string }) => void;
   addGuestToEvent: (payload: { event_id: string; guest: string }) => void;
   setCurrentUserEmail: (payload: string | null) => void;
-  deleteGuest: (payload: { event_id: string; guest: string }) => void;
-}
-
-export enum ModalType {
-  USER_CARD = "USER_CARD",
-  CALL_BACK = "CALL_BACK",
-  CREATE_REQUEST_FORM = "CREATE_REQUEST_FORM",
-}
-
-export interface IModal {
-  type: ModalType;
-  data?: any;
-}
-
-export interface ChangeUserData {
-  data: Partial<IUser>;
-  email?: string;
 }
 
 export interface IEvent {

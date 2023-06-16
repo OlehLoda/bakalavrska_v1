@@ -48,3 +48,30 @@
   height: 24px;
   cursor: pointer;
 }
+
+@media screen and (max-width: 800px) {
+  .guest.user {
+    grid-template-areas: unset;
+    gap: 10px;
+  }
+  .guest {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .guest > * {
+    grid-area: unset;
+  }
+
+  .name,
+  .email {
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .name::-webkit-scrollbar,
+  .guest::-webkit-scrollbar,
+  .email::-webkit-scrollbar {
+    display: none;
+  }
+}

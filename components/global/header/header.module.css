@@ -26,9 +26,9 @@
   right: 0px;
   transform: translateX(99%);
 
-  width: fit-content;
+  width: 40px;
   height: 40px;
-  padding: 0 10px;
+  padding: 0;
 
   opacity: 1 !important;
   cursor: pointer;
@@ -183,4 +183,131 @@
 .header.small .link > p {
   max-width: 0px;
   transform: scaleX(0);
+}
+
+@media screen and (max-width: 1024px) {
+  .header,
+  .header.small {
+    width: 100vw;
+    width: 100dvw;
+    height: 100px;
+    padding: 30px;
+
+    grid-auto-flow: column;
+    grid-template-columns: 1fr auto;
+
+    transition: 0s;
+  }
+
+  .header .logo {
+    padding: 0;
+  }
+
+  .header .link,
+  .header.small .link {
+    position: fixed;
+    top: calc(100px * var(--i));
+    left: -100%;
+    z-index: 1;
+
+    width: 100%;
+    height: 100px;
+
+    transition: 0.3s;
+    opacity: 1 !important;
+
+    justify-content: start;
+    gap: 10px;
+  }
+
+  .header .link:hover {
+    background: var(--silver-hover);
+  }
+
+  .header .link > p,
+  .header.small .link > p {
+    max-width: 100%;
+    transform: unset;
+  }
+
+  .header.small .link {
+    left: 0;
+  }
+
+  .link:last-of-type::before {
+    content: "";
+
+    position: absolute;
+    top: 100%;
+
+    height: 100vh;
+    width: 100%;
+    background: var(--silver);
+    pointer-events: none;
+  }
+
+  .toggleHeader {
+    transform: unset;
+
+    right: 0px;
+    top: 0px;
+
+    position: relative;
+  }
+
+  .toggleHeader::before,
+  .toggleHeader::after {
+    content: "";
+    position: absolute;
+
+    width: 100%;
+    height: 5px;
+    background: var(--black);
+    border-radius: 10px;
+
+    transform: unset;
+    transition: 0.3s;
+    transform-origin: center;
+  }
+
+  .header .toggleHeader::before {
+    top: 10px;
+  }
+
+  .header .toggleHeader::after {
+    bottom: 10px;
+  }
+
+  .header.small .toggleHeader::before {
+    transform: rotate(45deg);
+    top: calc(50% - 2.5px);
+  }
+
+  .header.small .toggleHeader::after {
+    transform: rotate(-45deg);
+
+    bottom: calc(50% - 2.5px);
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .header .logo > span:nth-child(2),
+  .header .logo > span:nth-child(3),
+  .header .logo > span:nth-child(4),
+  .header .logo > span:nth-child(6),
+  .header .logo > span:nth-child(7),
+  .header .logo > span:nth-child(8),
+  .header .logo > span:nth-child(9),
+  .header .logo > span:nth-child(10) {
+    max-width: 0px;
+    opacity: 0;
+  }
+
+  .header .logo > span:nth-child(5) {
+    transform: scaleX(-1) translateY(10%);
+  }
+
+  .header .logo:hover > span:nth-child(5) {
+    animation: moveReversedLetter 0.05s ease-in-out 0.05s;
+  }
 }

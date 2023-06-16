@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  IUser,
-  IEvent,
-  IAllEvents,
-  IInitialState,
-  ChangeUserData,
-} from "./types";
+import { IUser, IEvent, IAllEvents, IInitialState } from "./types";
 import { Action, GlobalReducer } from "./reducer";
 import { GlobalContext, InitialState } from "./context";
 import { useParams, usePathname, useRouter } from "next/navigation";
@@ -22,26 +16,28 @@ export default function GlobalContextProvider({
   const pathname = usePathname();
   const query = useParams();
 
-  useEffect(() => {
+  const handleRedirectUnassignedUser = () => {
     if (
       state.current_user_email === null &&
       pathname !== "/login" &&
       pathname !== "/register" &&
       !query?.["event_id"]
     ) {
-      console.log(pathname);
-
       router.push("/login");
     }
-  }, [state.current_user_email]);
+  };
 
-  useEffect(() => {
+  useEffect(() => handleRedirectUnassignedUser(), [state.current_user_email]);
+
+  const saveDataToDB = () => {
     if (state.registered_users && state.registered_users?.length > 0) {
-      saveDataToDB();
+      return localStorage.setItem("state", JSON.stringify(state));
     }
-  }, [state]);
+  };
 
-  useEffect(() => {
+  useEffect(() => saveDataToDB(), [state]);
+
+  const eventsDistribution = () => {
     const current_user = findUser(state.current_user_email || "");
     if (!current_user) return;
 
@@ -56,8 +52,21 @@ export default function GlobalContextProvider({
 
     const events: IAllEvents = { my_events, invited_to };
 
-    changeUserData({ data: { events } });
-  }, [state.current_user_email, state.all_events]);
+    editUserData({ data: { events } });
+  };
+
+  useEffect(
+    () => eventsDistribution(),
+    [state.current_user_email, state.all_events]
+  );
+
+  const getDataFromDB = () => {
+    const data: IInitialState = localStorage.getItem("state")
+      ? JSON.parse(localStorage.getItem("state")!)
+      : null;
+
+    return data && setData(data);
+  };
 
   useEffect(() => getDataFromDB(), []);
 
@@ -73,8 +82,8 @@ export default function GlobalContextProvider({
     return dispatch({ type: Action.SET_CURRENT_USER_EMAIL, payload });
   };
 
-  const changeUserData = (payload: ChangeUserData) => {
-    return dispatch({ type: Action.CHANGE_USER_DATA, payload });
+  const editUserData = (payload: { data: Partial<IUser>; email?: string }) => {
+    return dispatch({ type: Action.EDIT_USER_DATA, payload });
   };
 
   const deleteUser = (payload: string) => {
@@ -101,26 +110,8 @@ export default function GlobalContextProvider({
     return dispatch({ type: Action.DELETE_EVENT, payload });
   };
 
-  const setLoading = (payload: boolean) => {
-    return dispatch({ type: Action.SET_LOADING, payload });
-  };
-
   const getEventById = (id: string) => {
     return state.all_events.find((e) => e.id === id);
-  };
-
-  const saveDataToDB = () => {
-    console.log(JSON.stringify(state));
-
-    return localStorage.setItem("state", JSON.stringify(state));
-  };
-
-  const getDataFromDB = () => {
-    const data: IInitialState = localStorage.getItem("state")
-      ? JSON.parse(localStorage.getItem("state")!)
-      : null;
-
-    return data && setData(data);
   };
 
   const findUser = (email: string) => {
@@ -142,16 +133,15 @@ export default function GlobalContextProvider({
         findUser,
         editEvent,
         deleteUser,
-        setLoading,
         createEvent,
         deleteEvent,
+        deleteGuest,
         registerUser,
         findUserData,
         getEventById,
-        changeUserData,
+        editUserData,
         addGuestToEvent,
         setCurrentUserEmail,
-        deleteGuest,
       }}
     >
       {children}

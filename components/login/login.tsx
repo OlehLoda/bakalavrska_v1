@@ -13,7 +13,7 @@ interface IChangePasswordStep {
 }
 
 export default function LogIn() {
-  const { findUser, changeUserData, setCurrentUserEmail } = useGlobalContext();
+  const { findUser, editUserData, setCurrentUserEmail } = useGlobalContext();
 
   const [resetPass, setResetPass] = useState<IChangePasswordStep | null>(null);
 
@@ -47,7 +47,7 @@ export default function LogIn() {
     } else if (resetPass?.step === 1 && user_exist) {
       return setResetPass({ step: 2, email: data["email"] as string });
     } else if (resetPass?.step === 2 && user_exist && is_password_correct) {
-      changeUserData({
+      editUserData({
         data: { password: data["password"] as string },
         email: resetPass?.email,
       });

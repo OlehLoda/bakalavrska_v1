@@ -11,7 +11,7 @@ export default function Profile() {
     state: { current_user_email },
     findUser,
     deleteUser,
-    changeUserData,
+    editUserData,
     setCurrentUserEmail,
   } = useGlobalContext();
 
@@ -41,7 +41,7 @@ export default function Profile() {
       e.currentTarget.elements.namedItem("name") as HTMLInputElement
     ).value;
 
-    changeUserData({ data: { name } });
+    editUserData({ data: { name } });
 
     alert("Name has been changed");
 
@@ -55,7 +55,7 @@ export default function Profile() {
       e.currentTarget.elements.namedItem("email") as HTMLInputElement
     ).value;
 
-    changeUserData({ data: { email } });
+    editUserData({ data: { email } });
     setCurrentUserEmail(email);
 
     alert("Email has been changed");
@@ -76,7 +76,7 @@ export default function Profile() {
 
     if (password !== old_password) return alert("Old password is wrong");
 
-    changeUserData({ data: { password: new_password } });
+    editUserData({ data: { password: new_password } });
 
     alert("Password has been changed");
 
@@ -152,7 +152,7 @@ export default function Profile() {
   ];
 
   return (
-    <div className={s.bg}>
+    <div className="bg">
       <div className={s.content}>
         <h2>Profile</h2>
         <div className={s.generalInfo}>

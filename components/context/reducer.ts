@@ -1,4 +1,4 @@
-import { IUser, IEvent, IInitialState, ChangeUserData } from "./types";
+import { IUser, IEvent, IInitialState } from "./types";
 
 export type ActionMap<M extends { [index: string]: any }> = {
   [Key in keyof M]: M[Key] extends undefined
@@ -14,13 +14,12 @@ export type ActionMap<M extends { [index: string]: any }> = {
 export enum Action {
   SET_DATA = "SET_DATA",
   EDIT_EVENT = "EDIT_EVENT",
-  SET_LOADING = "SET_LOADING",
   DELETE_USER = "DELETE_USER",
   CREATE_EVENT = "CREATE_EVENT",
   DELETE_EVENT = "DELETE_EVENT",
   DELETE_GUEST = "DELETE_GUEST",
   REGISTER_USER = "REGISTER_USER",
-  CHANGE_USER_DATA = "CHANGE_USER_DATA",
+  EDIT_USER_DATA = "CHANGE_USER_DATA",
   ADD_GUEST_TO_EVENT = "ADD_GUEST_TO_EVENT",
   SET_CURRENT_USER_EMAIL = "SET_CURRENT_USER_EMAIL",
 }
@@ -29,12 +28,11 @@ export interface Payload {
   [Action.SET_DATA]: IInitialState;
   [Action.EDIT_EVENT]: Partial<IEvent>;
   [Action.DELETE_USER]: string;
-  [Action.SET_LOADING]: boolean;
   [Action.CREATE_EVENT]: IEvent;
   [Action.DELETE_EVENT]: string;
   [Action.DELETE_GUEST]: { event_id: string; guest: string };
   [Action.REGISTER_USER]: IUser;
-  [Action.CHANGE_USER_DATA]: ChangeUserData;
+  [Action.EDIT_USER_DATA]: { data: Partial<IUser>; email?: string };
   [Action.ADD_GUEST_TO_EVENT]: { event_id: string; guest: string };
   [Action.SET_CURRENT_USER_EMAIL]: string | null;
 }
@@ -60,7 +58,7 @@ export const GlobalReducer = (
     case Action.SET_CURRENT_USER_EMAIL:
       return { ...state, current_user_email: action.payload };
 
-    case Action.CHANGE_USER_DATA:
+    case Action.EDIT_USER_DATA:
       const registered_users = (
         structuredClone(state.registered_users) as IUser[]
       ).map((user) => {
@@ -138,9 +136,6 @@ export const GlobalReducer = (
           (event) => event.id !== action.payload
         ),
       };
-
-    case Action.SET_LOADING:
-      return { ...state, loading: action.payload };
 
     default:
       return state;

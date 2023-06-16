@@ -85,3 +85,8 @@
 .email {
   grid-area: email;
 }
+@media screen and (max-width: 800px) {
+  .buttonsWrap {
+    grid-template-columns: 1fr;
+  }
+}

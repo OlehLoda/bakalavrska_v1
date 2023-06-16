@@ -1,4 +1,3 @@
-import Link from "next/link";
 import s from "./header.module.css";
 import { CSSProperties } from "react";
 

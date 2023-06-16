@@ -2,7 +2,7 @@
 import Logo from "./logo";
 import Link from "next/link";
 import s from "./header.module.css";
-import { ReactNode, useRef } from "react";
+import { CSSProperties, ReactNode, useRef } from "react";
 import { usePathname } from "next/navigation";
 import ProfileIcon from "@/public/icons/profile";
 import CreateNewIcon from "@/public/icons/create-new";
@@ -63,8 +63,14 @@ export default function Header() {
         <Logo />
       </Link>
       {navMap.map(({ children, href }, index) => (
-        <Link href={href} key={index}>
-          <div className={`${s.link} ${is_active(href)}`}>{children}</div>
+        <Link
+          href={href}
+          key={index}
+          style={{ "--i": index + 1 } as CSSProperties}
+          className={`${s.link} ${is_active(href)}`}
+          onClick={toggleHeader}
+        >
+          {children}
         </Link>
       ))}
       <button className={s.toggleHeader} onClick={toggleHeader} />

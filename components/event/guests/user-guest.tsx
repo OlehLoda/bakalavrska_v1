@@ -41,7 +41,10 @@ export default function UserGuest({
       <p className={s.name}>
         {name} {isOwner && <span>(Event owner)</span>}
       </p>
-      <p className={s.email}>{email}</p>
+      <p className={s.email}>
+        {email}
+        <span />
+      </p>
       {is_owner && !is_me && (
         <DeleteGuestIcon className={s.delete} onClick={onDelete} />
       )}

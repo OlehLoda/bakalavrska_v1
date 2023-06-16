@@ -9,7 +9,6 @@ export default function CreateEvent() {
   const router = useRouter();
   const {
     state: { current_user_email },
-    setLoading,
     createEvent,
     findUserData,
   } = useGlobalContext();
@@ -36,7 +35,6 @@ export default function CreateEvent() {
     if (
       confirm("Event successfully created\n\nRedirect to event page?") === true
     ) {
-      setLoading(true);
       return router.push(`/event/${new_event_info.id}`);
     } else return e.currentTarget.reset();
   };
