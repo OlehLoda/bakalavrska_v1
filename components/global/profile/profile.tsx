@@ -1,9 +1,11 @@
+"use client";
+
 import Image from "next/image";
 import s from "./profile.module.css";
-import { signOut } from "next-auth/react";
 import { FormEvent, useState } from "react";
 import DropDown from "../drop-down/drop-down";
 import AvatarIcon from "@/public/icons/avatar";
+import { signOut, useSession } from "next-auth/react";
 import { useGlobalContext } from "@/components/context/context";
 
 export default function Profile() {
@@ -14,6 +16,7 @@ export default function Profile() {
     editUserData,
     setCurrentUserEmail,
   } = useGlobalContext();
+  const { data: session } = useSession();
 
   const [active, setActive] = useState<number | null>(null),
     toggleActive = (index: number) =>
@@ -29,9 +32,9 @@ export default function Profile() {
     logOut();
   };
 
-  const logOut = () => {
+  const logOut = async () => {
+    await signOut();
     setCurrentUserEmail(null);
-    signOut();
   };
 
   const changeProfileInfo = (e: FormEvent<HTMLFormElement>) => {
@@ -185,7 +188,7 @@ export default function Profile() {
         ))}
         <div className={s.buttonsWrap}>
           <button onClick={deleteAccount}>Delete account</button>
-          <button onClick={logOut}>Log out</button>
+          <button onClick={logOut}>Sign out</button>
         </div>
       </div>
     </div>

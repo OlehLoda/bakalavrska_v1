@@ -1,11 +1,12 @@
 "use client";
 
 import { v4 } from "uuid";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import LogIn from "@/components/login/login";
 import { IUser } from "@/components/context/types";
 import { signOut, useSession } from "next-auth/react";
 import { useGlobalContext } from "@/components/context/context";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const {
@@ -16,14 +17,20 @@ export default function LoginPage() {
   } = useGlobalContext();
 
   const { data: session } = useSession();
+  const router = useRouter();
+
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!session) return;
+    if (!session) return setLoading(false);
     const { name, email, image } = session.user || {};
 
     const user_exist = findUser(email as string);
 
-    if (user_exist) return setCurrentUserEmail(user_exist.email);
+    if (user_exist) {
+      router.push("./profile");
+      return setCurrentUserEmail(user_exist.email);
+    }
 
     const new_user: IUser = {
       id: v4(),
@@ -41,18 +48,12 @@ export default function LoginPage() {
     setCurrentUserEmail(new_user.email);
   }, [session]);
 
-  const logOut = () => {
-    setCurrentUserEmail(null);
-    signOut();
-  };
-
-  return !current_user_email ? (
+  return !loading ? (
     <LogIn />
   ) : (
     <div className="bg">
       <div className="form">
-        <h2>Signed in as {findUser(current_user_email)?.name}</h2>
-        <button onClick={logOut}>Sign out</button>
+        <h2>Loading...</h2>
       </div>
     </div>
   );

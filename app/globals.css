@@ -42,14 +42,14 @@ body {
 }
 
 :root {
-  --onyx: rgb(57, 61, 63);
+  --onyx: #393d3f;
   --white: #fcfcfc;
   --black: #121212;
   --silver: rgb(198, 197, 185);
   --silver-hover: rgb(185, 185, 182);
-  --blue: rgb(98, 146, 158);
+  --blue: #62929e;
   --red: rgb(255, 67, 63);
-  --green: rgb(121, 206, 61);
+  --green: #79ce3d;
 }
 
 .bg {
@@ -156,7 +156,8 @@ button[type="reset"],
   font-weight: 600;
 }
 
-button[type="submit"],
+button[type="reset"].submit,
+button[type="submit"]:not(.reset),
 .submit {
   background: var(--green);
 }

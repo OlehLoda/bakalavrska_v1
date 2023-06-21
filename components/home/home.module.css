@@ -8,3 +8,8 @@
 .h1 ~ p {
   text-align: center;
 }
+
+.h1 ~ p a {
+  text-decoration: underline;
+  font-weight: 500;
+}

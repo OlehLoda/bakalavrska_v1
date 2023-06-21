@@ -31,11 +31,8 @@ export default function Event() {
   const [modal, setModal] = useState<Modal | null>(null);
 
   useEffect(() => {
-    if (loading && event_id) {
-      setLoading(false);
-    } else {
-      event_id && setEvent(getEventById(event_id));
-    }
+    if (loading && event_id) setLoading(false);
+    else event_id && setEvent(getEventById(event_id));
   }, [loading, event_id]);
 
   if (!event) return <div className="bg">Loading...</div>;

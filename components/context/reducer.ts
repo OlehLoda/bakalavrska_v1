@@ -80,9 +80,7 @@ export const GlobalReducer = (
             (user) => user.email !== action.payload
           ),
         };
-      } else {
-        return state;
-      }
+      } else return state;
 
     case Action.CREATE_EVENT:
       return {

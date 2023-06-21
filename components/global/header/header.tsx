@@ -8,6 +8,8 @@ import ProfileIcon from "@/public/icons/profile";
 import CreateNewIcon from "@/public/icons/create-new";
 import AllEventsIcon from "@/public/icons/all-events";
 import { useGlobalContext } from "@/components/context/context";
+import { signOut } from "next-auth/react";
+import LogOutIcon from "@/public/icons/log-out";
 
 interface INavTab {
   children: ReactNode;
@@ -17,6 +19,7 @@ interface INavTab {
 export default function Header() {
   const {
     state: { current_user_email },
+    setCurrentUserEmail,
   } = useGlobalContext();
   const pathname = usePathname();
   const headerRef = useRef<HTMLElement>(null);
@@ -55,6 +58,10 @@ export default function Header() {
     },
   ];
 
+  const logOut = async () => {
+    await signOut();
+    setCurrentUserEmail(null);
+  };
   const toggleHeader = () => headerRef.current?.classList.toggle(s.small);
 
   return (
@@ -68,11 +75,14 @@ export default function Header() {
           key={index}
           style={{ "--i": index + 1 } as CSSProperties}
           className={`${s.link} ${is_active(href)}`}
-          onClick={toggleHeader}
         >
           {children}
         </Link>
       ))}
+      <button className={`${s.link} ${s.logOut}`} onClick={logOut}>
+        <LogOutIcon />
+        <p>Sign out</p>
+      </button>
       <button className={s.toggleHeader} onClick={toggleHeader} />
     </header>
   );

@@ -5,26 +5,29 @@
   height: 100vh;
   height: 100dvh;
 
-  width: 311px;
+  --width: 311px;
+  width: var(--width);
 
   display: grid;
   gap: 10px;
   align-content: start;
+  grid-template-rows: repeat(4, auto) 1fr;
 
   position: relative;
+  overflow: hidden;
 
   margin-right: 33px;
+  padding-bottom: 30px;
 }
 
 .header.small {
-  width: 116px;
+  --width: 116px;
 }
 
 .toggleHeader {
-  position: absolute;
+  position: fixed;
   top: 20px;
-  right: 0px;
-  transform: translateX(99%);
+  left: var(--width);
 
   width: 40px;
   height: 40px;
@@ -39,16 +42,16 @@
 }
 
 .toggleHeader::before {
-  content: ">";
+  content: "➠";
   display: inline-block;
   transition: 0.3s;
 
   font-weight: 700;
-  transform: scaleX(1) scaleY(1.5);
+  transform: scaleX(-1) scaleY(1.5);
 }
 
 .header.small .toggleHeader::before {
-  transform: scaleX(-1) scaleY(1.5);
+  transform: scaleX(1) scaleY(1.5);
 }
 
 .header .logo {
@@ -134,7 +137,7 @@
 
   gap: 10px;
 
-  transition: opacity 0.3s, gap 0.3s;
+  transition: 0.3s;
 
   position: relative;
 }
@@ -176,16 +179,37 @@
 }
 
 .header.small .link {
-  gap: 0px;
-  justify-content: center;
+  gap: 50px;
+  overflow: hidden;
+  padding: 15px 15px 15px calc((116px - 30px) / 2);
 }
 
-.header.small .link > p {
-  max-width: 0px;
-  transform: scaleX(0);
+.logOut {
+  background: var(--onyx);
+  border-radius: 0;
+  align-self: end;
+}
+
+.logOut p {
+  font-weight: 500;
+  color: var(--red);
+}
+
+.logOut svg path {
+  stroke: var(--red);
+  stroke-width: 2px;
+}
+
+.logOut:hover {
+  background: var(--onyx);
+  opacity: 1;
 }
 
 @media screen and (max-width: 1024px) {
+  .logOut {
+    display: none;
+  }
+
   .header,
   .header.small {
     width: 100vw;

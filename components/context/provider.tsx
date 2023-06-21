@@ -17,14 +17,16 @@ export default function GlobalContextProvider({
   const query = useParams();
 
   const handleRedirectUnassignedUser = () => {
-    if (
-      state.current_user_email === null &&
-      pathname !== "/login" &&
-      pathname !== "/register" &&
-      !query?.["event_id"]
-    ) {
-      router.push("/login");
-    }
+    setTimeout(() => {
+      if (
+        state.current_user_email === null &&
+        pathname !== "/login" &&
+        pathname !== "/register" &&
+        !query?.["event_id"]
+      ) {
+        router.push("/login");
+      }
+    }, 500);
   };
 
   useEffect(() => handleRedirectUnassignedUser(), [state.current_user_email]);
