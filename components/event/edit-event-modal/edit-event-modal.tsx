@@ -75,7 +75,7 @@ export default function EditEventModal({ onClose, event, setLoading }: Props) {
           name="description"
           defaultValue={description}
           className="input"
-          placeholder="Event address"
+          placeholder="Event description"
           rows={5}
         />
         <div>

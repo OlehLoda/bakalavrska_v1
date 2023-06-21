@@ -15,8 +15,8 @@
   top: 30px;
   left: 30px;
 
-  height: 30px;
+  height: 30px !important;
   width: 30px;
 
-  background: transparent;
+  background: transparent !important;
 }

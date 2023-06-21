@@ -65,12 +65,52 @@ export default function LogIn() {
       ? setResetPass({ step: resetPass?.step - 1 })
       : setResetPass(null);
 
+  const onResetHandler = (e: FormEvent) => {
+    e.preventDefault();
+    resetPass !== null && stepBack();
+  };
+
   return (
     <div className="bg">
-      {!resetPass && (
-        <form className="form" onSubmit={onSubmit}>
-          <h2>Login</h2>
-          <div className="wrap">
+      <form className="form" onSubmit={onSubmit} onReset={onResetHandler}>
+        {!resetPass && (
+          <>
+            <h2>Login</h2>
+            <div className="wrap">
+              <input
+                autoFocus
+                required
+                placeholder="Email"
+                name="email"
+                type="email"
+                className="input"
+              />
+              <InputPass required name="password" />
+            </div>
+            <div className="wrap">
+              <button type="submit">Submit</button>
+              <button
+                type="button"
+                onClick={() => signIn()}
+                className={s.google}
+              >
+                Sign in with <GoogleIcon />
+              </button>
+            </div>
+            <div className={s.registerForgot}>
+              <Link href="/register">Don't have an account?</Link>
+              <p onClick={toggleResetPass}>Forget password?</p>
+            </div>
+          </>
+        )}
+
+        {resetPass?.step === 1 && (
+          <>
+            <button type="reset" className={s.back}>
+              <ArrowIcon />
+            </button>
+
+            <h2>Reset password</h2>
             <input
               autoFocus
               required
@@ -79,70 +119,41 @@ export default function LogIn() {
               type="email"
               className="input"
             />
-            <InputPass required name="password" />
-          </div>
-          <div className="wrap">
-            <button type="submit">Увійти</button>
-            <button type="button" onClick={() => signIn()} className={s.google}>
-              Sign in with <GoogleIcon />
+            <button type="submit" className={s.submit}>
+              Continue
             </button>
-          </div>
-          <div className={s.registerForgot}>
-            <Link href="/register">Don't have an account?</Link>
-            <p onClick={toggleResetPass}>Forget password?</p>
-          </div>
-        </form>
-      )}
+          </>
+        )}
 
-      {resetPass?.step === 1 && (
-        <form className="form" onSubmit={onSubmit} onReset={stepBack}>
-          <button type="reset" className={s.back}>
-            <ArrowIcon />
-          </button>
-
-          <h2>Reset password</h2>
-          <input
-            autoFocus
-            required
-            placeholder="Email"
-            name="email"
-            type="email"
-            className="input"
-          />
-          <button type="submit" className={s.submit}>
-            Continue
-          </button>
-        </form>
-      )}
-
-      {resetPass?.step === 2 && (
-        <form className="form" onSubmit={onSubmit} onReset={stepBack}>
-          <button type="reset" className={s.back}>
-            <ArrowIcon />
-          </button>
-          <h2>Reset password</h2>
-          <input
-            autoFocus
-            minLength={8}
-            required
-            name="password"
-            type="password"
-            className="input"
-            placeholder="Введіть новий пароль"
-          />
-          <input
-            minLength={8}
-            required
-            name="password_repeat"
-            type="password"
-            className="input"
-            placeholder="Повторіть пароль"
-          />
-          <button type="submit" className={s.submit}>
-            Change password
-          </button>
-        </form>
-      )}
+        {resetPass?.step === 2 && (
+          <>
+            <button type="reset" className={s.back}>
+              <ArrowIcon />
+            </button>
+            <h2>Reset password</h2>
+            <input
+              autoFocus
+              minLength={8}
+              required
+              name="password"
+              type="password"
+              className="input"
+              placeholder="Введіть новий пароль"
+            />
+            <input
+              minLength={8}
+              required
+              name="password_repeat"
+              type="password"
+              className="input"
+              placeholder="Повторіть пароль"
+            />
+            <button type="submit" className={s.submit}>
+              Change password
+            </button>
+          </>
+        )}
+      </form>
     </div>
   );
 }
