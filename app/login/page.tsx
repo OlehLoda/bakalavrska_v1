@@ -22,6 +22,9 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    console.log(!!current_user_email);
+
+    if (!!current_user_email) return router.push("./profile");
     if (!session) return setLoading(false);
     const { name, email, image } = session.user || {};
 
@@ -46,7 +49,7 @@ export default function LoginPage() {
 
     registerUser(new_user);
     setCurrentUserEmail(new_user.email);
-  }, [session]);
+  }, [session, current_user_email]);
 
   return !loading ? (
     <LogIn />
